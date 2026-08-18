@@ -4,899 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" href="favicon.svg" type="image/svg+xml">
-	<meta name="description" content="Cloudflare 优选IP - 定时自动更新的CF优选IP列表导航">
+	<meta name="description" content="BCFIP 优选IP - 定时自动更新的CF优选IP列表导航">
 	<meta name="keywords" content="Cloudflare, 优选IP, BestIP, IPv4, IPv6, 免费节点, VLESS, VMess, Trojan, Reality, WARP, Clash, Sing-box, v2rayN, Shadowrocket, 网络加速, 科学上网">
-	<meta name="author" content="CF BestIP">
-	<title>CF 优选IP | Cloudflare BestIP</title>
+	<meta name="author" content="BCFIP">
+	<title>BCFIP 优选IP | Cloudflare BestIP</title>
 	<style>
-		:root { --bg-color: #0f172a; --card-bg: rgba(30, 41, 59, 0.7); --accent-blue: #3b82f6; --text-main: #f1f5f9; --text-muted: #94a3b8; --border-color: rgba(255, 255, 255, 0.08); --code-bg: rgba(15, 23, 42, 0.6); }
-		* { box-sizing: border-box; margin: 0; padding: 0; }
-		body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg-color); background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.18) 0%, transparent 600px); background-repeat: no-repeat; color: var(--text-main); line-height: 1.6; padding: 50px 20px; overflow-x: hidden; }
-		.container { max-width: 1080px; margin: 0 auto; }
-		header { text-align: center; margin-bottom: 50px; }
-		h1 { font-size: 2.2rem; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.02em; background: linear-gradient(to right, #ffffff, var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-		footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); }
-		.tips { display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; }
-		.ad-button { display: inline-block; background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(37, 99, 235, 0.8)); color: #fff; padding: 10px 28px; border-radius: 50px; text-decoration: none; font-size: 0.95rem; font-weight: 700; transition: 0.3s; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
-		.ad-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3); }
-		section { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 25px; margin-bottom: 50px; }
-		section > h2 { grid-column: 1 / -1; }
-		.section-tip { margin-left: auto; min-width: 0; font-size: 0.8rem; font-weight: normal; color: var(--text-muted); line-height: 1.5; text-align: left; }
-		h2 { font-size: 1.7rem; margin-bottom: 25px; color: #fff; display: flex; align-items: center; flex-wrap: wrap; column-gap: 15px; }
-		h2::before { content: ""; width: 5px; height: 1.4rem; background: var(--accent-blue); margin-right: 15px; border-radius: 10px; box-shadow: 0 0 15px var(--accent-blue), 0 0 5px rgba(59, 130, 246, 0.5); }
-		.group-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 26px; margin-bottom: 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);}
-		.group-name { font-size: 1.15rem; margin-bottom: 20px; color: #fff; font-weight: 700; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-		.link-row { margin-bottom: 20px; }
-		.link-row:last-child { margin-bottom: 0; }
-		.item-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-		.item-title { font-weight: 700; color: #fff; font-size: 1.05rem; line-height: 1; }
-		.tag { display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; padding: 0 5px; height: 18px; border-radius: 4px; font-weight: 600; color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.4); line-height: 1; background: rgba(59, 130, 246, 0.1); vertical-align: middle; }
-		.tag-featured { background-color: var(--accent-blue); color: #fff; border: none; height: 18px; }
-		.action-area { display: flex; align-items: center; gap: 12px; }
-		.url-box { flex: 1; min-width: 0; overflow: hidden; background-color: var(--code-bg); padding: 0 16px; height: 42px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; }
-		.url-text { font-family: ui-monospace, SFMono-Regular, Monaco, Consolas, monospace; font-size: 1rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; user-select: all; min-width: 0; width: 100%; }
-		.copy-btn, .open-btn { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.4); height: 42px; padding: 0 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 700; transition: all 0.3s; white-space: nowrap; flex-shrink: 0; display: flex; align-items: center; justify-content: center; text-decoration: none; }
-		.copy-btn:hover, .open-btn:hover { background: var(--accent-blue); color: #fff; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
-		.item-desc { display: block; font-size: 0.8rem; color: #94a3b8; line-height: 1.4; margin: 4px 0 12px 0; font-weight: normal; }
-		.copy-btn.success { background: #10b981; border-color: #10b981; color: #fff; }
-		@media (max-width: 720px) { section { grid-template-columns: minmax(0, 1fr); } }
-		@media (min-width: 1280px) { section { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-		@media (max-width: 600px) { .action-area { flex-direction: column; align-items: stretch; gap: 10px; } .url-box { height: 42px !important; min-height: 42px !important; display: flex !important; align-items: center !important; padding: 0 15px !important; } .open-btn, .copy-btn { height: 42px !important; line-height: 42px !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; width: 100% !important; } .url-text { font-size: 0.8rem !important; } }
-		@keyframes glow-breath { 0%, 100% { box-shadow: 0 0 5px #3b82f688; filter: brightness(1); } 50% { box-shadow: 0 0 25px #3b82f6, 0 0 10px #3b82f6; filter: brightness(1.5); } }
-		h2.breath::before { animation: glow-breath 4s ease-in-out infinite !important; }
-	
-	\t.item-header { width: 100%; }
-	\t.item-title { flex-shrink: 0; }
-	\t.url-text::placeholder { color: var(--text-muted); }
-	\tdel { color: var(--text-muted); opacity: .7; }
-	\tselect.url-text { appearance: none; -webkit-appearance: none; }
+		:root { --bg-color:#111111; --card-bg:rgba(30,30,30,.85); --accent:#F6821F; --accent-soft:rgba(246,130,31,.14); --accent-border:rgba(246,130,31,.4); --text-main:#F6F6F7; --text-muted:#9E9E9E; --border-color:rgba(255,255,255,.12); --code-bg:rgba(255,255,255,.06); --code-text:#FFB87A; --ok:#3FB950; --stripe-a:rgba(255,255,255,.035); --stripe-b:rgba(246,130,31,.06); }
+		* { box-sizing:border-box; margin:0; padding:0; }
+		body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background-color:var(--bg-color); background-image:radial-gradient(circle at 50% 0%, rgba(246,130,31,.14) 0%, transparent 600px); background-repeat:no-repeat; color:var(--text-main); line-height:1.6; padding:50px 20px; overflow-x:hidden; }
+		.container { max-width:1080px; margin:0 auto; }
+		header { text-align:center; margin-bottom:45px; }
+		h1 { font-size:2.3rem; margin-bottom:16px; font-weight:800; letter-spacing:-.02em; background:linear-gradient(to right,#fff,var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+		.tips { display:block; font-size:.9rem; color:var(--text-muted); margin-bottom:15px; }
+		h2 { font-size:1.5rem; margin:45px 0 20px; color:#fff; display:flex; align-items:center; column-gap:14px; }
+		h2::before { content:""; width:5px; height:1.3rem; background:var(--accent); border-radius:10px; box-shadow:0 0 15px var(--accent),0 0 5px rgba(246,130,31,.5); }
+		h2:first-of-type { margin-top:0; }
+		.tbl-wrap { overflow-x:auto; background-color:var(--card-bg); border:1px solid var(--border-color); border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,.35); margin-bottom:45px; }
+		table { width:100%; border-collapse:collapse; font-size:.88rem; min-width:640px; }
+		th, td { text-align:left; padding:11px 14px; border-bottom:1px solid var(--border-color); vertical-align:middle; }
+		tr:last-child td { border-bottom:none; }
+		tbody tr:nth-child(odd) { background-color:var(--stripe-a); }
+		tbody tr:nth-child(even) { background-color:var(--stripe-b); }
+		tbody tr:hover { background-color:rgba(246,130,31,.12); }
+		th { color:var(--accent); font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; background:rgba(246,130,31,.08); border-bottom:1px solid var(--accent-border); }
+		td.src { font-weight:700; color:#fff; white-space:nowrap; }
+		.tag { display:inline-flex; align-items:center; font-size:.68rem; font-weight:600; padding:1px 7px; border-radius:4px; color:var(--accent); border:1px solid var(--accent-border); background:rgba(246,130,31,.1); margin-top:4px; white-space:nowrap; }
+		.url-text { font-family:ui-monospace,SFMono-Regular,Monaco,Consolas,monospace; font-size:.82rem; color:var(--code-text); word-break:break-all; user-select:all; display:inline-block; max-width:620px; }
+		.copy-btn { background:rgba(246,130,31,.14); color:var(--accent); border:1px solid var(--accent-border); height:32px; padding:0 16px; border-radius:7px; cursor:pointer; font-size:.82rem; font-weight:700; transition:all .3s; white-space:nowrap; }
+		.copy-btn:hover { background:var(--accent); color:#fff; box-shadow:0 0 15px rgba(246,130,31,.35); }
+		.copy-btn.success { background:var(--ok); border-color:var(--ok); color:#fff; }
+		footer { text-align:center; margin-top:20px; padding-top:28px; border-top:1px solid var(--border-color); font-size:.85rem; color:var(--text-muted); }
+		footer a { color:var(--accent); text-decoration:none; }
+		footer a:hover { text-decoration:underline; }
 	</style>
 </head>
 <body>
-
 <div class="container">
     <header>
-        <h1>Cloudflare 优选IP</h1>
-		<p class="tips" style="margin-top:-12px;">定时自动更新的优选IP列表 · 数据由 GitHub Actions 每6小时自动抓取刷新</p>
+        <h1>BCFIP 优选IP</h1>
+		<p class="tips">定时自动更新的优选IP列表 · 数据由 GitHub Actions 每6小时自动抓取刷新</p>
     </header>
-    <section>
-        <h2>优选IP <span class="section-tip">兼容多个脚本的通用格式 "IP:端口#备注信息" ｜ EDT后台或变量添加txt链接，客户端更新订阅即可</span></h2>
 
-<div class="group-card">
-                <div class="item-header"><span class="item-title">WeTest</span><span class="tag">每半小时更新</span><span class="tag">分三网</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">wetest/ipv4.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'wetest/ipv4.txt')">复制链接</button>
-                </div>
-            </div>
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">UOUIN</span><span class="tag">每半小时更新</span><span class="tag">三网带测速</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">uouin/all.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'uouin/all.txt')">复制链接</button>
-                </div>
-            </div>			           
-			<div class="group-card">
-                <div class="item-header"><span class="item-title">Mia</span><span class="tag">每半小时更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">xinyitang3/ipv4.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'xinyitang3/ipv4.txt')">复制链接</button>
-                </div>
-            </div>	
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">LuoLi</span><span class="tag">每小时更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">luoli/all.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'luoli/all.txt')">复制链接</button>
-                </div>
-            </div>			
-			<div class="group-card">
-                <div class="group-name">CFYes<span class="tag">每半小时更新</span><span class="tag">分三网</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv4</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">cfyes/ipv4.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'cfyes/ipv4.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv6</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">cfyes/ipv6.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'cfyes/ipv6.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">备用</span><span class="tag">CM API</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://addressesapi.090227.xyz/CloudFlareYes</span>
-                        </div>
-                        <button class="copy-btn" onclick="copy(this, 'https://addressesapi.090227.xyz/CloudFlareYes')">复制链接</button>
-                    </div>
-                </div>				
-            </div>
-            <div class="group-card">
-                <div class="group-name">天诚 1<span class="tag">早中晚更新</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">多地区全量版</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng/all.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng/all.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">多地区迷你版</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng/mini.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng/mini.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">中国香港 HK</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng/hk.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng/hk.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">新加坡 SG</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng/sg.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng/sg.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">日本 JP</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng/jp.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng/jp.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">韩国 KR</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng/kr.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng/kr.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">美国 US</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng/us.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng/us.txt')">复制链接</button>
-                    </div>
-                </div>
-                <!-- <div class="link-row"> -->
-                    <!-- <div class="item-header"><span class="item-title">中国台湾 TW</span></div> -->
-                    <!-- <div class="action-area"> -->
-                        <!-- <div class="url-box"><span class="url-text">tiancheng/tw.txt</span> -->
-                        <!-- </div> -->
-                        <!-- <button class="copy-btn" -->
-                            <!-- onclick="copy(this, 'tiancheng/tw.txt')">复制链接</button> -->
-                    <!-- </div> -->
-                <!-- </div>				 -->
-            </div>					
-			<div class="group-card">
-                <div class="group-name">S5公益<span class="tag">每日更新</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">多地区全量版</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">s5gy/all.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 's5gy/all.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">多地区迷你版</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">s5gy/mini.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 's5gy/mini.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">中国香港 HK</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">s5gy/hk.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 's5gy/hk.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">新加坡 SG</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">s5gy/sg.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 's5gy/sg.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">日本 JP</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">s5gy/jp.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 's5gy/jp.txt')">复制链接</button>
-                    </div>
-                </div>
-                <!-- <div class="link-row"> -->
-                    <!-- <div class="item-header"><span class="item-title">韩国 KR</span></div> -->
-                    <!-- <div class="action-area"> -->
-                        <!-- <div class="url-box"><span class="url-text">s5gy/kr.txt</span></div> -->
-                        <!-- <button class="copy-btn" onclick="copy(this, 's5gy/kr.txt')">复制链接</button> -->
-                    <!-- </div> -->
-                <!-- </div> -->
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">美国 US</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">s5gy/us.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 's5gy/us.txt')">复制链接</button>
-                    </div>
-                </div>
-                <!-- <div class="link-row"> -->
-                    <!-- <div class="item-header"><span class="item-title">中国台湾 TW</span></div> -->
-                    <!-- <div class="action-area"> -->
-                        <!-- <div class="url-box"><span class="url-text">s5gy/tw.txt</span></div> -->
-                        <!-- <button class="copy-btn" onclick="copy(this, 's5gy/tw.txt')">复制链接</button> -->
-                    <!-- </div> -->
-                <!-- </div>				 -->
-            </div>			
-            <div class="group-card">
-                <div class="group-name">Gslege<span class="tag">早中晚更新</span></div>
+    <h2>优选IP</h2>
+    <div class="tbl-wrap">
+        <table>
+            <thead><tr><th style="width:150px;">来源</th><th>链接</th><th style="width:110px;">操作</th></tr></thead>
+            <tbody id="t1"></tbody>
+        </table>
+    </div>
 
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">带测速</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">gslege/Cfxyz.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'gslege/Cfxyz.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">新加坡 SG</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">gslege/SG.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'gslege/SG.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">德国 DE</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">gslege/DE.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'gslege/DE.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">美国 US</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">gslege/US.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'gslege/US.txt')">复制链接</button>
-                    </div>
-                </div>
-                <!-- <div class="link-row"> -->
-                    <!-- <div class="item-header"><span class="item-title">荷兰 NL</span></div> -->
-                    <!-- <div class="action-area"> -->
-                        <!-- <div class="url-box"><span class="url-text">gslege/NL.txt</span></div> -->
-                        <!-- <button class="copy-btn" -->
-                            <!-- onclick="copy(this, 'gslege/NL.txt')">复制链接</button> -->
-                    <!-- </div> -->
-                <!-- </div> -->
-                <!-- <div class="link-row"> -->
-                    <!-- <div class="item-header"><span class="item-title">日本 JP</span></div> -->
-                    <!-- <div class="action-area"> -->
-                        <!-- <div class="url-box"><span class="url-text">gslege/JP.txt</span></div> -->
-                        <!-- <button class="copy-btn" -->
-                            <!-- onclick="copy(this, 'gslege/JP.txt')">复制链接</button> -->
-                    <!-- </div> -->
-                <!-- </div> -->
-            </div>							
-			<div class="group-card">
-				<div class="group-name">MJZ</div>	
-				<div class="link-row">
-					<div class="item-header"><span class="item-title">MJZ</span><span class="tag">联通</span><span class="tag">每45分钟更新</span></div>
-					<div class="action-area">
-						<div class="url-box"><span class="url-text">https://cf.junzhen.qzz.io/best_ips.txt</span></div>
-						<button class="copy-btn" onclick="copy(this, 'https://cf.junzhen.qzz.io/best_ips.txt')">复制链接</button>
-					</div>
-				</div>
-				<div class="link-row">
-					<div class="item-header"><span class="item-title">MJZ</span><span class="tag">电信</span><span class="tag">每45分钟更新</span></div>
-					<div class="action-area">
-						<div class="url-box"><span class="url-text">https://cf.junzhen.qzz.io/best_ips_bj.txt</span></div>
-						<button class="copy-btn" onclick="copy(this, 'https://cf.junzhen.qzz.io/best_ips_bj.txt')">复制链接</button>
-					</div>
-				</div>				
-				<div class="link-row">
-					<div class="item-header"><span class="item-title">SS</span><span class="tag">移动</span><span class="tag">下午更新</span></div>
-					<div class="action-area">
-						<div class="url-box"><span class="url-text">https://raw.githubusercontent.com/svip-s/cloudflare_ip/refs/heads/main/best_ips.txt</span></div>
-						<button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/svip-s/cloudflare_ip/refs/heads/main/best_ips.txt')">复制链接</button>
-					</div>
-				</div>
-				<div class="link-row">
-					<div class="item-header"><span class="item-title">LZ</span><span class="tag">电信</span><span class="tag">每2小时更新</span></div>
-					<div class="action-area">
-						<div class="url-box"><span class="url-text">https://raw.githubusercontent.com/love-ztm/cfip/refs/heads/main/best_ips.txt</span></div>
-						<button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/love-ztm/cfip/refs/heads/main/best_ips.txt')">复制链接</button>
-					</div>				
-				</div>
-				<div class="link-row">
-					<div class="item-header"><span class="item-title">LZ</span><span class="tag">联通</span><span class="tag">每2小时更新</span></div>
-					<div class="action-area">
-						<div class="url-box"><span class="url-text">https://raw.githubusercontent.com/love-ztm/cfip/refs/heads/main/ubest_ips.txt</span></div>
-						<button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/love-ztm/cfip/refs/heads/main/ubest_ips.txt')">复制链接</button>
-					</div>
-				</div>				
-			</div> 
-			<div class="group-card">
-				<div class="group-name">ZhiXuan<span class="tag">每小时更新</span></div>
-				<div class="link-row">
-					<div class="item-header"><span class="item-title">IPv4</span></div>
-					<div class="action-area">
-						<div class="url-box"><span class="url-text">zhixuanwang/ipv4-onlyip.txt</span></div>
-						<button class="copy-btn" onclick="copy(this, 'zhixuanwang/ipv4-onlyip.txt')">复制链接</button>
-					</div>
-				</div>
-				<div class="link-row">
-					<div class="item-header"><span class="item-title">备用</span></div>
-					<div class="action-area">
-						<div class="url-box"><span class="url-text">https://addressesapi.090227.xyz/ip.164746.xyz</span></div>
-						<button class="copy-btn" onclick="copy(this, 'https://addressesapi.090227.xyz/ip.164746.xyz')">复制链接</button>
-					</div>
-				</div>				
-			</div>
-            <div class="group-card">
-                <div class="group-name">vvHan<span class="tag">每半小时更新</span><span class="tag">分三网</span></div>
+    <h2>随机优选 / WARP</h2>
+    <div class="tbl-wrap">
+        <table>
+            <thead><tr><th style="width:150px;">来源</th><th>链接</th><th style="width:110px;">操作</th></tr></thead>
+            <tbody id="t2"></tbody>
+        </table>
+    </div>
 
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv4</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">vvhan/ipv4.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'vvhan/ipv4.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv6</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">vvhan/ipv6.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'vvhan/ipv6.txt')">复制链接</button>
-                    </div>
-                </div>
-            </div>			
-			<div class="group-card">
-                <div class="group-name">NiREvil<span class="tag">每天下午更新</span><span class="tag">分三网</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv4</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">nirevil/ipv4.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'nirevil/ipv4.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv6</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">nirevil/ipv6.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'nirevil/ipv6.txt')">复制链接</button>
-                    </div>
-                </div>
-            </div>			
-            <div class="group-card">
-                <div class="group-name">MingYu<span class="tag">每小时更新</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv4</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestCF/bestcfv4.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestCF/bestcfv4.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv6</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestCF/bestcfv6.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestCF/bestcfv6.txt')">复制链接</button>
-                    </div>
-                </div>
-            </div>		
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">Yuanxiawan</span><span class="tag">每半小时更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/yuanxiawan/cfipv4db/refs/heads/main/cfip.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/yuanxiawan/cfipv4db/refs/heads/main/cfip.txt')">复制链接</button>
-                </div>
-            </div>
-            <!-- <div class="group-card"> -->
-                <!-- <div class="item-header"><span class="item-title">S5公益</span><span class="tag">每日更新</span></div> -->
-                <!-- <div class="action-area"> -->
-                    <!-- <div class="url-box"><span class="url-text">s5gy/all.txt</span></div> -->
-                    <!-- <button class="copy-btn" onclick="copy(this, 's5gy/all.txt')">复制链接</button> -->
-                <!-- </div> -->
-            <!-- </div>			 -->
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">CM 1</span><span class="tag">每半小时更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">cmliu/all.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'cmliu/all.txt')">复制链接</button>
-                </div>
-            </div> 
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">CM 2</span><span class="tag">每半小时更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">cmliu2/all.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'cmliu2/all.txt')">复制链接</button>
-                </div>
-            </div>
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">CM 3</span><span class="tag">每日更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/cmliu/WorkerVless2sub/refs/heads/main/addressesapi.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/cmliu/WorkerVless2sub/refs/heads/main/addressesapi.txt')">复制链接</button>
-                </div>
-            </div>					
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">Laziji</span><span class="tag">每半小时更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">lzj/all.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'lzj/all.txt')">复制链接</button>
-                </div>
-            </div>			
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">Lajiao</span><span class="tag">每日更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">lajiao/all.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'lajiao/all.txt')">复制链接</button>
-                </div>
-            </div>			
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">MoistR</span><span class="tag">更新异常</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">moistr/all.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'moistr/all.txt')">复制链接</button>
-                </div>
-            </div>			
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">Kristi</span><span class="tag">每日更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">kristi/all.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'kristi/all.txt')">复制链接</button>
-                </div>
-            </div>								
-            <div class="group-card">
-                <div class="group-name">Joname<span class="tag">每4小时更新</span><span class="tag">采集聚合</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv4</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/joname1/BestCFip/refs/heads/main/ipv4.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/joname1/BestCFip/refs/heads/main/ipv4.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">IPv6</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/joname1/BestCFip/refs/heads/main/ipv6.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/joname1/BestCFip/refs/heads/main/ipv6.txt')">复制链接</button>
-                    </div>
-                </div>
-            </div>
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">LancelotRar</span><span class="tag">每3小时更新</span><span class="tag">采集聚合</span><span class="tag tag-featured">NEW</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/LancelotRar/best-cf-ips/refs/heads/main/best-cf-ipv4.txt</span>
-                    </div>
-                    <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/LancelotRar/best-cf-ips/refs/heads/main/best-cf-ipv4.txt')">复制链接</button>
-                </div>
-            </div>			
-            <div class="group-card">
-                <div class="group-name">Senflare<span class="tag">每3小时更新</span><span class="tag">采集聚合</span><span class="tag tag-featured">NEW</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">单IP</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/Senflare/Senflare-IP/refs/heads/main/IPlist-Pro.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/Senflare/Senflare-IP/refs/heads/main/IPlist-Pro.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">带备注</span><span class="tag">新链接</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/Senflare/Senflare-IP/refs/heads/main/Senflare-Pro.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/Senflare/Senflare-IP/refs/heads/main/Senflare-Pro.txt')">复制链接</button>
-                    </div>
-                </div>
-            </div>			
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">JieChaoCC</span><span class="tag">每2小时更新</span><span class="tag tag-featured">NEW</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span
-                            class="url-text">https://raw.githubusercontent.com/JieChaoCC/cf-ip-auto/refs/heads/main/data/ipapi.txt</span>
-                    </div>
-                    <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/JieChaoCC/cf-ip-auto/refs/heads/main/data/ipapi.txt')">复制链接</button>
-                </div>
-            </div>
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">Ahang</span><span class="tag">每日更新</span><span class="tag tag-featured">NEW</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span
-                            class="url-text">https://raw.githubusercontent.com/ahang39/router/refs/heads/main/all.txt</span>
-                    </div>
-                    <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/ahang39/router/refs/heads/main/all.txt')">复制链接</button>
-                </div>
-            </div>						
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">IRCF</span><span class="tag">每4小时更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span
-                            class="url-text">ircf/ipv4.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'ircf/ipv4.txt')">复制链接</button>
-                </div>
-            </div>
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">Einsitang</span><span class="tag">每小时更新</span><span class="tag">单IP</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span
-                            class="url-text">https://raw.githubusercontent.com/einsitang/my-fast-cf-ip/refs/heads/master/fastips.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/einsitang/my-fast-cf-ip/refs/heads/master/fastips.txt')">复制链接</button>
-                </div>
-            </div>
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">Hubbylei</span><span class="tag">每小时更新</span><span class="tag">单IP</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span
-                            class="url-text">https://raw.githubusercontent.com/hubbylei/bestcf/refs/heads/main/bestcf.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/hubbylei/bestcf/refs/heads/main/bestcf.txt')">复制链接</button>
-                </div>
-            </div>
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">YuTian</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">yutian/all.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'yutian/all.txt')">复制链接</button>
-                </div>
-            </div>			
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">天诚 4</span><span class="tag">每2小时更新</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span
-                            class="url-text">https://raw.githubusercontent.com/gshtwy/CF-DNS-Clone/refs/heads/main/wetest-cloudflare-v4.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/gshtwy/CF-DNS-Clone/refs/heads/main/wetest-cloudflare-v4.txt')">复制链接</button>
-                </div>
-            </div>			
-            <div class="group-card">
-                <div class="group-name">EDT/WARP 通用随机优选</div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">通用段 合集</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://warp-masque-bestip.pages.dev/?ips=50&level=all&port=random</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://warp-masque-bestip.pages.dev/?ips=50&level=all&port=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">核心段 合集</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://warp-masque-bestip.pages.dev/?ips=50&level=p0&port=random</span>
-                        </div>
-                        <button class="copy-btn" onclick="copy(this, 'https://warp-masque-bestip.pages.dev/?ips=50&level=p0&port=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">迷你版</span><span class="tag tag-featured">NEW</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">WARP/WARP-MINI-443.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'WARP/WARP-MINI-443.txt')">复制链接</button>
-                    </div>
-                </div>
-                <!-- <div class="link-row"> -->
-                    <!-- <div class="item-header"><span class="item-title">迷你版 8443</span></div> -->
-                    <!-- <div class="action-area"> -->
-                        <!-- <div class="url-box"><span class="url-text">WARP/WARP-MINI-8443.txt</span> -->
-                        <!-- </div> -->
-                        <!-- <button class="copy-btn" onclick="copy(this, 'WARP/WARP-MINI-8443.txt')">复制链接</button> -->
-                    <!-- </div> -->
-                <!-- </div>				 -->
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">新版One MASQUE 主段</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://warp-masque-bestip.pages.dev/?ips=50&level=198&port=random</span>
-                        </div>
-                        <button class="copy-btn" onclick="copy(this, 'https://warp-masque-bestip.pages.dev/?ips=50&level=198&port=random')">复制链接</button>
-                    </div>
-                </div>			
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">Gateway MASQUE 主段</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://warp-masque-bestip.pages.dev/?ips=50&level=197&port=random</span>
-                        </div>
-                        <button class="copy-btn" onclick="copy(this, 'https://warp-masque-bestip.pages.dev/?ips=50&level=197&port=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">Gateway WireGuard 主段</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://warp-masque-bestip.pages.dev/?ips=50&level=193&port=random</span>
-                        </div>
-                        <button class="copy-btn" onclick="copy(this, 'https://warp-masque-bestip.pages.dev/?ips=50&level=193&port=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">旧版WARP 主段</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://warp-masque-bestip.pages.dev/?ips=50&level=192&port=random</span>
-                        </div>
-                        <button class="copy-btn" onclick="copy(this, 'https://warp-masque-bestip.pages.dev/?ips=50&level=192&port=random')">复制链接</button>
-                    </div>
-                </div>					
-				<div class="item-desc">说明：port=自定义端口443/8443/random；ips=自定义IP数量；level=自定义网段，p0-p3合集段从优等到次等，或198/197等具体号段，不同地区/运营商/时段，效果有差异；官方良心没有强制鉴权，不要滥用！WARP其它相关号段，欢迎自测并投稿</div>
-            </div>
-			<div class="group-card">
-				<div class="group-name">按地区随机优选<span class="tag">每日更新</span><span class="tag">CM API</span></div>
-				<div class="action-area" style="gap: 10px; flex-wrap: wrap; margin-bottom: 12px;">
-					<div class="url-box" style="flex: 2; min-width: 120px; padding: 0 10px;">
-						<select id="randRegionSelect" class="url-text"
-							style="width: 100%; background: transparent; border: none; outline: none; cursor: pointer; color: var(--text-main);">
-							<option value="mix" style="background-color: #f1f5f9; color: #000000;">每个地区随机5个IP</option>
-							<option value="mix2" style="background-color: #f1f5f9; color: #000000;">每个地区随机10个IP</option>
-						</select>
-					</div>
-					<div class="url-box" style="flex: 1; min-width: 80px; padding: 0 10px;">
-						<select id="randCountSelect" class="url-text"
-							style="width: 100%; background: transparent; border: none; outline: none; cursor: pointer; color: var(--text-main);">
-							<option value="10" style="background-color: #f1f5f9; color: #000000;">随机10个</option>
-							<option value="20" style="background-color: #f1f5f9; color: #000000;">随机20个</option>
-							<option value="50" selected style="background-color: #f1f5f9; color: #000000;">随机50个</option>
-							<option value="100" style="background-color: #f1f5f9; color: #000000;">随机100个</option>
-							<option value="all" style="background-color: #f1f5f9; color: #000000;">全部IP</option>
-						</select>
-					</div>
-					<button class="copy-btn" onclick="openRandRegionURL()">预览列表</button>
-				</div>
-				<div class="link-row">
-					<div class="action-area">
-						<div class="url-box" style="flex: 1; padding: 0 10px;">
-							<input type="text" id="rand-url-output" class="url-text" readonly
-								style="width: 100%; background: transparent; border: none; outline: none; color: #94a3b8; opacity: 0.8;"
-								placeholder="加载中...">
-						</div>
-						<button class="copy-btn" id="randRegionCopyBtn" onclick="copyRandRegionURL()">复制链接</button>
-					</div>
-				</div>
-				<div class="item-desc">随机而非实时优选，部分IP落地变化、失效或效果差，不适合日常使用，可临时用于部分限制地区的网站应用或二次优选</div>
-			</div>			
-            <div class="group-card">
-                <div class="group-name">按运营商随机优选<span class="tag">CM API</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">三网</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://090227.pages.dev/bestcf?isp=all&ips=20</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://090227.pages.dev/bestcf?isp=all&ips=20')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">电信</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://090227.pages.dev/bestcf?isp=ct&ips=50</span>
-                        </div>
-                        <button class="copy-btn" onclick="copy(this, 'https://090227.pages.dev/bestcf?isp=ct&ips=50')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">联通</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://090227.pages.dev/bestcf?isp=cu&ips=50</span>
-                        </div>
-                        <button class="copy-btn" onclick="copy(this, 'https://090227.pages.dev/bestcf?isp=cu&ips=50')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">移动</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://090227.pages.dev/bestcf?isp=cmcc&ips=50</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://090227.pages.dev/bestcf?isp=cmcc&ips=50')">复制链接</button>
-                    </div>
-                </div>
-				<div class="item-desc">isp=自定义运营商；ips=自定义IP数量</div>
-            </div>			
-            <div class="group-card">
-                <div class="group-name">按网段随机优选</div>
-				<div class="link-row">
-                    <div class="item-header"><span class="item-title">合集</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=all&n=50&p=random</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=all&n=50&p=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">104.16.0.0/12</span><span class="tag">常用</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=104.16.0.0/12&n=50&p=random</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=104.16.0.0/12&n=50&p=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">188.114.96.0/22 (96/97/98/99)</span><span class="tag">常用</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">https://randomip.pages.dev/?c=188.114.96.0/22&n=50&p=random</span>
-                        </div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=188.114.96.0/22&n=50&p=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">162.159.38.0/24</span><span class="tag">部分亚洲</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=162.159.38.0/24&n=50&p=443</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=162.159.38.0/24&n=50&p=443')">复制链接</button>
-                    </div>
-                </div>					
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">162.159.46.0/24</span><span class="tag">部分亚洲</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=162.159.46.0/24&n=50&p=443</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=162.159.46.0/24&n=50&p=443')">复制链接</button>
-                    </div>
-                </div>					
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">162.158.0.0/15</span><span class="tag">部分亚洲</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=162.158.0.0/15&n=50&p=random</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=162.158.0.0/15&n=50&p=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">172.64.0.0/13</span><span class="tag">部分亚洲</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=172.64.0.0/13&n=50&p=random</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=172.64.0.0/13&n=50&p=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">103.21.244.0/24</span><span class="tag">部分亚洲</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=103.21.244.0/24&n=50&p=random</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=103.21.244.0/24&n=50&p=random')">复制链接</button>
-                    </div>
-                </div>				
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">27.50.48.0/24</span><span class="tag">部分亚洲</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=27.50.48.0/24&n=50&p=random</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=27.50.48.0/24&n=50&p=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">162.159.48.0/22 (48/49/50/51)</span><span class="tag">部分亚洲</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=162.159.48.0/22&n=50&p=random</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=162.159.48.0/22&n=50&p=random')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">198.41.208.0/23 (208/209)</span><span class="tag">部分亚洲</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span
-                                class="url-text">https://randomip.pages.dev/?c=198.41.208.0/23&n=50&p=random</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'https://randomip.pages.dev/?c=198.41.208.0/23&n=50&p=random')">复制链接</button>
-                    </div>
-                </div>				
-				<div class="item-desc">说明：p=自定义端口443/2053/2083/2087/2096/8443/random；n=自定义IP数量(最大500)；c=自定义网段，CIDR格式或模糊匹配(例如c=162.159.38)，不同地区/运营商/时段，效果有差异；欢迎自测其它号段并投稿</div>
-            </div>				
-            <!-- <div class="group-card"> -->
-            <!-- <div class="item-header"><span class="item-title">碧海</span><span class="tag">停更</span><span class="tag">占位回归</span></div> -->
-            <!-- <div class="action-area"> -->
-            <!-- <div class="url-box"><span class="url-text">https://bihai.cf/CFIP/</span></div> -->
-            <!-- <button class="copy-btn" onclick="copy(this, 'https://bihai.cf/CFIP/')">复制链接</button> --> 
-            <!-- </div> -->
-            <!-- </div>			 -->
-			<div class="group-card">
-				<div class="group-name">SUB优选订阅合集<span class="tag">支持部分EDT和订阅器</span></div>
-				<div class="action-area" style="gap: 10px; flex-wrap: wrap; margin-bottom: 12px;">
-					<div class="url-box" style="flex: 1; min-width: 200px; padding: 0 10px;">
-						<select id="subBestSelect" class="url-text"
-							style="width: 100%; background: transparent; border: none; outline: none; cursor: pointer; color: var(--text-main);">
-							<option value="sub://sub.cmliussss.net#CM" style="background-color: #f1f5f9; color: #000000;">sub://sub.cmliussss.net#CM</option>
-							<option value="sub://sub.mia.xx.kg#Mia" style="background-color: #f1f5f9; color: #000000;">sub://sub.mia.xx.kg#Mia</option>
-							<option value="sub://vl.cm.soso.edu.kg#天诚1" style="background-color: #f1f5f9; color: #000000;">sub://vl.cm.soso.edu.kg#天诚1</option>
-							<option value="sub://owo.o00o.ooo#Moist_R" style="background-color: #f1f5f9; color: #000000;">sub://owo.o00o.ooo#Moist_R</option>
-							<option value="sub://loli.sub.us.ci#洛璃" style="background-color: #f1f5f9; color: #000000;">sub://sub.us.ci#洛璃</option>
-							<option value="sub://sub.lzjbaby.com#辣子鸡" style="background-color: #f1f5f9; color: #000000;">sub://sub.lzjbaby.com#辣子鸡</option>
-							<option value="sub://sub.xdu.qzz.io#辣椒炒肉少放辣" style="background-color: #f1f5f9; color: #000000;">sub://sub.xdu.qzz.io#辣椒炒肉少放辣</option>
-							<option value="sub://sub.995677.xyz#S5公益" style="background-color: #f1f5f9; color: #000000;">sub://sub.995677.xyz#S5公益</option>
-							<option value="sub://sub.ais.sld.tw#青云志" style="background-color: #f1f5f9; color: #000000;">sub://sub.ais.sld.tw#青云志</option>
-							<option value="sub://sub.eooce.xx.kg#老王" style="background-color: #f1f5f9; color: #000000;">sub://sub.eooce.xx.kg#老王</option>
-							<option value="sub://sub.keaeye.icu#文烨" style="background-color: #f1f5f9; color: #000000;">sub://sub.keaeye.icu#文烨</option>
-							<option value="sub://sub.mot.cloudns.biz#Kristi" style="background-color: #f1f5f9; color: #000000;">sub://sub.mot.cloudns.biz#Kristi</option>
-							<option value="sub://zrf.zrf.me#周润发" style="background-color: #f1f5f9; color: #000000;">sub://zrf.zrf.me#周润发</option>
-							<option value="sub://sub.danfeng.eu.org#DanFeng" style="background-color: #f1f5f9; color: #000000;">sub://sub.danfeng.eu.org#DanFeng</option>
-						</select>
-					</div>
-					<button class="copy-btn" id="subBestCopyBtn" onclick="subBestCopyURL()">复制链接</button>
-				</div>
-			</div>
-			<script>function subBestCopyURL(){const e=document.getElementById("subBestSelect"),t=document.getElementById("subBestCopyBtn");if(e&&t&&e.value){const n=document.createElement("textarea");n.value=e.value,document.body.appendChild(n),n.select();try{if(document.execCommand("copy")){const e=t.innerText;t.innerText="成功复制",setTimeout(()=>{t.innerText=e},1500)}}catch(e){console.error(e)}finally{document.body.removeChild(n)}}}document.addEventListener("DOMContentLoaded",(()=>{const e=document.getElementById("subBestSelect");if(e&&e.options.length>0){e.selectedIndex=Math.floor(Math.random()*e.options.length)}}));</script>	
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">Endpoint IP</span><span class="tag">新手勿用</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">entryip/50.txt</span></div>
-                    <button class="copy-btn" onclick="copy(this, 'entryip/50.txt')">复制链接</button>
-                </div>
-            </div>
-            <div class="group-card">
-                <div class="item-header"><span class="item-title">Fiatnorm</span><span class="tag">更新异常</span></div>
-                <div class="action-area">
-                    <div class="url-box"><span class="url-text">https://raw.githubusercontent.com/Fiatnorm/OptiDomain-Pages/refs/heads/main/optimized_cf_ips.txt</span>
-                    </div>
-                    <button class="copy-btn" onclick="copy(this, 'https://raw.githubusercontent.com/Fiatnorm/OptiDomain-Pages/refs/heads/main/optimized_cf_ips.txt')">复制链接</button>
-                </div>
-            </div>				
-            <div class="group-card">
-                <div class="group-name"><del>天诚 2</del><span class="tag tag-featured">更新异常</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">多地区全量版</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng2/all.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng2/all.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">多地区迷你版</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng2/mini.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng2/mini.txt')">复制链接</button>
-                    </div>
-                </div>
-                <!-- <div class="link-row"> -->
-                    <!-- <div class="item-header"><span class="item-title">中国香港 HK</span></div> -->
-                    <!-- <div class="action-area"> -->
-                        <!-- <div class="url-box"><span class="url-text">tiancheng2/hk.txt</span> -->
-                        <!-- </div> -->
-                        <!-- <button class="copy-btn" -->
-                            <!-- onclick="copy(this, 'tiancheng2/hk.txt')">复制链接</button> -->
-                    <!-- </div> -->
-                <!-- </div> -->
+    <h2>SUB 优选订阅</h2>
+    <div class="tbl-wrap">
+        <table>
+            <thead><tr><th style="width:150px;">来源</th><th>链接</th><th style="width:110px;">操作</th></tr></thead>
+            <tbody id="t3"></tbody>
+        </table>
+    </div>
 
-                <!-- <div class="link-row"> -->
-                    <!-- <div class="item-header"><span class="item-title">新加坡 SG</span></div> -->
-                    <!-- <div class="action-area"> -->
-                        <!-- <div class="url-box"><span class="url-text">tiancheng2/sg.txt</span> -->
-                        <!-- </div> -->
-                        <!-- <button class="copy-btn" -->
-                            <!-- onclick="copy(this, 'tiancheng2/sg.txt')">复制链接</button> -->
-                    <!-- </div> -->
-                <!-- </div> -->
-                <!-- <div class="link-row"> -->
-                    <!-- <div class="item-header"><span class="item-title">美国 US</span></div> -->
-                    <!-- <div class="action-area"> -->
-                        <!-- <div class="url-box"><span class="url-text">tiancheng2/us.txt</span> -->
-                        <!-- </div> -->
-                        <!-- <button class="copy-btn" -->
-                            <!-- onclick="copy(this, 'tiancheng2/us.txt')">复制链接</button> -->
-                    <!-- </div> -->
-                <!-- </div> -->
-            </div>
-            <div class="group-card">
-                <div class="group-name"><del>天诚 3</del><span class="tag tag-featured">更新异常</span></div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">多地区全量版</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng3/all.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng3/all.txt')">复制链接</button>
-                    </div>
-                </div>
-                <div class="link-row">
-                    <div class="item-header"><span class="item-title">多地区迷你版</span></div>
-                    <div class="action-area">
-                        <div class="url-box"><span class="url-text">tiancheng3/mini.txt</span></div>
-                        <button class="copy-btn" onclick="copy(this, 'tiancheng3/mini.txt')">复制链接</button>
-                    </div>
-                </div>
-            </div>
-    </section>
 <footer>
-        <span class="tips">本站内容均来自网络，完全免费使用，请勿用于非法用途<br>数据由 GitHub Actions 每6小时定时自动更新</span>
-    </footer>
-
+        <span class="tips">本站内容均来自网络，完全免费使用，请勿用于非法用途 · 数据由 GitHub Actions 每6小时定时自动更新<br><a href="pipeline">数据管道说明</a></span>
+</footer>
 </div>
+
 <script>
 (function(){
     window.copy = function(btn, url) {
@@ -922,15 +99,79 @@
         }
     };
 })();
-</script>
 
-<script>
-const REGION_MAP={'HK':'中国香港','MO':'中国澳门','TW':'中国台湾省','JP':'日本','KR':'韩国','SG':'新加坡','MY':'马来西亚','TH':'泰国','VN':'越南','PH':'菲律宾','ID':'印尼','IN':'印度','AU':'澳大利亚','NZ':'新西兰','US':'美国','CA':'加拿大','GB':'英国','DE':'德国','FR':'法国','NL':'荷兰','IT':'意大利','ES':'西班牙','PT':'葡萄牙','RU':'俄罗斯','UA':'乌克兰','BR':'巴西','ZA':'南非'};
-async function initRandRegionCard(){const regionSelect=document.getElementById('randRegionSelect');const countSelect=document.getElementById('randCountSelect');if(!regionSelect)return;try{const domains=[location.origin,location.origin,location.origin];async function fetchAndRenderRegions(retryCount=0){try{const currentDomain=domains[retryCount]||domains[0];const response=await fetch(currentDomain+'/random-region/list.txt?_t='+Date.now());if(response.ok){const text=await response.text();const lines=text.split('\n');lines.forEach(line=>{const trimmed=line.trim();if(!trimmed||!trimmed.includes('|'))return;const parts=trimmed.split('|');const countryCode=parts[0].trim();const count=parts[1].trim();const countryCN=REGION_MAP[countryCode]||countryCode;const option=document.createElement('option');option.value=countryCode;option.textContent=countryCN+' '+countryCode+' - '+count+'个IP';option.style.backgroundColor='#f1f5f9';option.style.color='#000000';regionSelect.appendChild(option)});let hasUS=false;for(let i=0;i<regionSelect.options.length;i++){if(regionSelect.options[i].value==='US'){regionSelect.selectedIndex=i;hasUS=true;break}}if(!hasUS&&regionSelect.options.length>1){regionSelect.selectedIndex=1}if(typeof updateRandURL==='function')updateRandURL()}else{throw new Error('HTTP status: '+response.status)}}catch(error){if(retryCount<2){await fetchAndRenderRegions(retryCount+1)}else{throw error}}}await fetchAndRenderRegions()}catch(e){console.error('load region list failed',e)}regionSelect.addEventListener('change',updateRandURL);countSelect.addEventListener('change',updateRandURL);updateRandURL()}
-function updateRandURL(){const regionSelect=document.getElementById('randRegionSelect');const countSelect=document.getElementById('randCountSelect');const outputInput=document.getElementById('rand-url-output');if(!regionSelect||!countSelect||!outputInput)return;const region=regionSelect.value;const count=countSelect.value;let finalURL='';if(region==='mix'){finalURL=location.origin+'/random-region/mix.txt';countSelect.disabled=true;countSelect.style.opacity='0.5'}else if(region==='mix2'){finalURL=location.origin+'/random-region/mix2.txt';countSelect.disabled=true;countSelect.style.opacity='0.5'}else{finalURL=location.origin+'/random-region/'+region+'/'+count+'.txt';countSelect.disabled=false;countSelect.style.opacity='1'}outputInput.value=finalURL}
-function openRandRegionURL(){const outputInput=document.getElementById('rand-url-output');if(outputInput&&outputInput.value){window.open(outputInput.value,'_blank')}}
-function copyRandRegionURL(){const outputInput=document.getElementById('rand-url-output');const copyBtn=document.getElementById('randRegionCopyBtn');if(!outputInput||!outputInput.value||!copyBtn)return;const textarea=document.createElement('textarea');textarea.value=outputInput.value;document.body.appendChild(textarea);textarea.select();document.execCommand('copy');document.body.removeChild(textarea);const originalText=copyBtn.innerText;copyBtn.innerText='复制成功';setTimeout(()=>{copyBtn.innerText=originalText},1500)}
-document.addEventListener('DOMContentLoaded',initRandRegionCard);
+var DATA = [
+  { id:'t1', rows:[
+    ['WeTest', [['wetest/ipv4.txt','每半小时更新 · 分三网']]],
+    ['UOUIN', [['uouin/all.txt','每半小时更新 · 三网带测速']]],
+    ['LuoLi', [['luoli/all.txt','每6小时更新']]],
+    ['CM 1', [['cmliu/all.txt','每6小时更新']]],
+    ['Laziji', [['lzj/all.txt','每6小时更新']]],
+    ['MoistR', [['moistr/all.txt','每6小时更新']]],
+    ['Kristi', [['kristi/all.txt','每6小时更新']]],
+    ['YuTian', [['yutian/all.txt','每6小时更新']]],
+    ['CFYes', [['cfyes/ipv4.txt','IPv4 · 每半小时更新'],['cfyes/ipv6.txt','IPv6'],['https://addressesapi.090227.xyz/CloudFlareYes','备用 · CM API']]],
+    ['天诚 1', [['tiancheng/all.txt','多地区全量版 · 每6小时更新'],['tiancheng/mini.txt','多地区迷你版'],['tiancheng/hk.txt','中国香港 HK'],['tiancheng/sg.txt','新加坡 SG'],['tiancheng/jp.txt','日本 JP'],['tiancheng/kr.txt','韩国 KR'],['tiancheng/us.txt','美国 US']]],
+    ['天诚 3', [['tiancheng3/all.txt','多地区全量版 · 每6小时更新'],['tiancheng3/mini.txt','多地区迷你版']]],
+    ['S5公益', [['s5gy/all.txt','多地区全量版 · 每日更新'],['s5gy/mini.txt','多地区迷你版'],['s5gy/hk.txt','中国香港 HK'],['s5gy/sg.txt','新加坡 SG'],['s5gy/jp.txt','日本 JP'],['s5gy/us.txt','美国 US']]],
+    ['Gslege', [['gslege/Cfxyz.txt','带测速 · 每6小时更新'],['gslege/SG.txt','新加坡 SG'],['gslege/DE.txt','德国 DE'],['gslege/US.txt','美国 US']]],
+    ['vvHan', [['vvhan/ipv4.txt','IPv4 · 每半小时更新'],['vvhan/ipv6.txt','IPv6']]],
+    ['NiREvil', [['nirevil/ipv4.txt','IPv4 · 每天下午更新'],['nirevil/ipv6.txt','IPv6']]],
+    ['MJZ', [['https://cf.junzhen.qzz.io/best_ips.txt','联通 · 每45分钟更新'],['https://cf.junzhen.qzz.io/best_ips_bj.txt','电信 · 每45分钟更新']]],
+    ['SS', [['https://raw.githubusercontent.com/svip-s/cloudflare_ip/refs/heads/main/best_ips.txt','移动 · 下午更新']]],
+    ['LZ', [['https://raw.githubusercontent.com/love-ztm/cfip/refs/heads/main/best_ips.txt','电信 · 每2小时更新'],['https://raw.githubusercontent.com/love-ztm/cfip/refs/heads/main/ubest_ips.txt','联通 · 每2小时更新']]],
+    ['ZhiXuan', [['zhixuanwang/ipv4-onlyip.txt','IPv4 · 每小时更新'],['https://addressesapi.090227.xyz/ip.164746.xyz','备用']]],
+    ['MingYu', [['https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestCF/bestcfv4.txt','IPv4 · 每小时更新'],['https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestCF/bestcfv6.txt','IPv6']]],
+    ['Joname', [['https://raw.githubusercontent.com/joname1/BestCFip/refs/heads/main/ipv4.txt','IPv4 · 每4小时更新 · 采集聚合'],['https://raw.githubusercontent.com/joname1/BestCFip/refs/heads/main/ipv6.txt','IPv6']]],
+    ['IRCF', [['ircf/ipv4.txt','每4小时更新']]],
+    ['LancelotRar', [['https://raw.githubusercontent.com/LancelotRar/best-cf-ips/refs/heads/main/best-cf-ipv4.txt','每3小时更新']]],
+    ['Senflare', [['https://raw.githubusercontent.com/Senflare/Senflare-IP/refs/heads/main/IPlist-Pro.txt','单IP · 每3小时更新'],['https://raw.githubusercontent.com/Senflare/Senflare-IP/refs/heads/main/Senflare-Pro.txt','带备注']]],
+    ['JieChaoCC', [['https://raw.githubusercontent.com/JieChaoCC/cf-ip-auto/refs/heads/main/data/ipapi.txt','每2小时更新']]],
+    ['Ahang', [['https://raw.githubusercontent.com/ahang39/router/refs/heads/main/all.txt','每日更新']]],
+    ['Einsitang', [['https://raw.githubusercontent.com/einsitang/my-fast-cf-ip/refs/heads/master/fastips.txt','每小时更新 · 单IP']]],
+    ['Hubbylei', [['https://raw.githubusercontent.com/hubbylei/bestcf/refs/heads/main/bestcf.txt','每小时更新 · 单IP']]],
+    ['CM 3', [['https://raw.githubusercontent.com/cmliu/WorkerVless2sub/refs/heads/main/addressesapi.txt','每日更新']]],
+    ['天诚 4', [['https://raw.githubusercontent.com/gshtwy/CF-DNS-Clone/refs/heads/main/wetest-cloudflare-v4.txt','每2小时更新']]],
+    ['Endpoint IP', [['entryip/50.txt','新手勿用']]],
+    ['Fiatnorm', [['https://raw.githubusercontent.com/Fiatnorm/OptiDomain-Pages/refs/heads/main/optimized_cf_ips.txt','每日更新']]]
+  ]},
+  { id:'t2', rows:[
+    ['EDT/WARP', [['https://warp-masque-bestip.pages.dev/?ips=50&level=all&port=random','通用段合集'],['https://warp-masque-bestip.pages.dev/?ips=50&level=p0&port=random','核心段合集'],['WARP/WARP-MINI-443.txt','迷你版'],['https://warp-masque-bestip.pages.dev/?ips=50&level=198&port=random','新版One MASQUE 主段'],['https://warp-masque-bestip.pages.dev/?ips=50&level=197&port=random','Gateway MASQUE 主段'],['https://warp-masque-bestip.pages.dev/?ips=50&level=193&port=random','Gateway WireGuard 主段'],['https://warp-masque-bestip.pages.dev/?ips=50&level=192&port=random','旧版WARP 主段']]],
+    ['按运营商', [['https://090227.pages.dev/bestcf?isp=all&ips=20','三网'],['https://090227.pages.dev/bestcf?isp=ct&ips=50','电信'],['https://090227.pages.dev/bestcf?isp=cu&ips=50','联通'],['https://090227.pages.dev/bestcf?isp=cmcc&ips=50','移动']]],
+    ['按网段', [['https://randomip.pages.dev/?c=all&n=50&p=random','合集'],['https://randomip.pages.dev/?c=104.16.0.0/12&n=50&p=random','104.16.0.0/12 · 常用'],['https://randomip.pages.dev/?c=188.114.96.0/22&n=50&p=random','188.114.96.0/22 · 常用'],['https://randomip.pages.dev/?c=162.159.38.0/24&n=50&p=443','部分亚洲'],['https://randomip.pages.dev/?c=162.159.46.0/24&n=50&p=443','部分亚洲'],['https://randomip.pages.dev/?c=162.158.0.0/15&n=50&p=random','部分亚洲'],['https://randomip.pages.dev/?c=172.64.0.0/13&n=50&p=random','部分亚洲'],['https://randomip.pages.dev/?c=103.21.244.0/24&n=50&p=random','部分亚洲'],['https://randomip.pages.dev/?c=27.50.48.0/24&n=50&p=random','部分亚洲'],['https://randomip.pages.dev/?c=162.159.48.0/22&n=50&p=random','部分亚洲'],['https://randomip.pages.dev/?c=198.41.208.0/23&n=50&p=random','部分亚洲']]],
+    ['地区随机', [['random-region/mix.txt','每个地区随机5个IP'],['random-region/mix2.txt','每个地区随机10个IP']]]
+  ]},
+  { id:'t3', rows:[
+    ['CM', [['sub://sub.cmliussss.net#CM','']]],
+    ['天诚1', [['sub://vl.cm.soso.edu.kg#天诚1','']]],
+    ['Moist_R', [['sub://owo.o00o.ooo#Moist_R','']]],
+    ['洛璃', [['sub://loli.sub.us.ci#洛璃','']]],
+    ['辣子鸡', [['sub://sub.lzjbaby.com#辣子鸡','']]],
+    ['辣椒炒肉少放辣', [['sub://sub.xdu.qzz.io#辣椒炒肉少放辣','']]],
+    ['S5公益', [['sub://sub.995677.xyz#S5公益','']]],
+    ['青云志', [['sub://sub.ais.sld.tw#青云志','']]],
+    ['老王', [['sub://sub.eooce.xx.kg#老王','']]],
+    ['文烨', [['sub://sub.keaeye.icu#文烨','']]],
+    ['Kristi', [['sub://sub.mot.cloudns.biz#Kristi','']]],
+    ['周润发', [['sub://zrf.zrf.me#周润发','']]],
+    ['DanFeng', [['sub://sub.danfeng.eu.org#DanFeng','']]]
+  ]}
+];
+
+DATA.forEach(function(sec){
+  var tb = document.getElementById(sec.id);
+  sec.rows.forEach(function(r){
+    var links = r[1], n = links.length;
+    for (var i = 0; i < n; i++) {
+      var tr = document.createElement('tr');
+      var src = i === 0 ? '<td class="src" rowspan="' + n + '">' + r[0] + '</td>' : '';
+      var tag = links[i][1] ? '<span class="tag">' + links[i][1] + '</span>' : '';
+      tr.innerHTML = src + '<td><span class="url-text">' + links[i][0] + '</span></td>' +
+        '<td><button class="copy-btn" onclick="copy(this,\'' + links[i][0].replace(/'/g,"\\'") + '\')">复制链接</button></td>';
+      tb.appendChild(tr);
+    }
+  });
+});
 </script>
 </body>
 </html>
