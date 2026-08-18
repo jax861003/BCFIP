@@ -16,18 +16,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 请求订阅并校验数据
-        env:
-          XINYITANG3_URL: ${{ secrets.XINYITANG3_URL }}
         run: |
-          echo "开始请求目标链接..."
-          
-          if [ -z "$XINYITANG3_URL" ]; then
-            echo "错误：未检测到 XINYITANG3_URL"
-            exit 0
-          fi
-          
-          if ! curl -sS -L -A "Clash" --retry 3 --retry-delay 3 "$XINYITANG3_URL" -o raw_nodes.txt; then
-            echo "错误：请求目标链接失败！"
+          echo "开始镜像参考源数据 (wanwushequ/cfyxip) ..."
+          mkdir -p xinyitang3
+          if ! curl -sL --retry 3 --retry-delay 3 "https://raw.githubusercontent.com/wanwushequ/cfyxip/main/xinyitang3/ipv4.txt" -o raw_nodes.txt; then
+            echo "错误：请求参考数据失败！"
             exit 1
           fi
 
@@ -48,13 +41,20 @@ jobs:
             exit 1
           fi
 
-          mkdir -p xinyitang3
-          
-          cat raw_nodes.txt > xinyitang3/ipv4.txt
-          
-          if [ "$(tail -c1 xinyitang3/ipv4.txt)" != "" ]; then
-            echo "" >> xinyitang3/ipv4.txt
-          fi
+          # 统一格式转换：来源 | 归属地 | IPv4/IPv6 | 运营商
+          T=$(TZ='Asia/Shanghai' date +'%m-%d %H:%M')
+          echo "162.159.198.1:443#Mia优选 | ${T} | BestCF.pages.dev" > xinyitang3/ipv4.txt
+          awk -F'|' '{
+            line=$0;
+            if (line ~ /BestCF\.pages\.dev/) { next }
+            split($1, a, "#"); ip_port=a[1];
+            if (ip_port ~ /^127\.0\.0\.1/) { next }
+            region=$2; gsub(/^ +| +$/, "", region); gsub(/^中国/, "", region);
+            host=ip_port; sub(/^\[/, "", host); sub(/\]/, "", host); sub(/:[0-9]+$/, "", host);
+            ipver=(host ~ /:/) ? "IPv6" : "IPv4";
+            print ip_port "#Mia优选 | " region " | " ipver " | 未知"
+          }' raw_nodes.txt >> xinyitang3/ipv4.txt
+          echo "162.159.197.1:443#Mia优选 | 分享免费优选网 BestCF.pages.dev" >> xinyitang3/ipv4.txt
           
           echo "数据校验通过，ipv4.txt 文件生成成功！"
 
