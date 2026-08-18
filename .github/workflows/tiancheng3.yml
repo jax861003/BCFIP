@@ -106,8 +106,9 @@ jobs:
             ip_port=$(echo "$line" | grep -oP '(?<=@).*?(?=\?)')
             raw_tag=$(echo "$line" | awk -F'#' '{print $2}')
             tag=$(python3 -c "import urllib.parse, sys; print(urllib.parse.unquote(sys.argv[1]))" "$raw_tag")
-            
-                        # --- 统一输出：来源 | 归属地 | IPv4/IPv6 | 运营商 ---
+            remark="$tag"
+
+            # --- 统一输出：来源 | 归属地 | IPv4/IPv6 | 运营商 ---
             if [[ "$remark" =~ "韩国" || "$remark" =~ "KR" || "$remark" =~ "🇰🇷" ]]; then 
                 location="韩国 KR"
             elif [[ "$remark" =~ "香港" || "$remark" =~ "HK" || "$remark" =~ "🇭🇰" ]]; then 
@@ -159,7 +160,6 @@ jobs:
 
             if [[ -n "$ip_port" ]]; then
               echo "${ip_port}#天诚优选3 | ${location} | ${ipver} | ${isp}" >> new_nodes.tmp
-            fi
             fi
           done
 

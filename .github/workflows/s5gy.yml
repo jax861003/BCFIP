@@ -167,7 +167,6 @@ jobs:
             if [[ -n "$ip_port" ]]; then
               echo "${ip_port}#S5公益 | ${location} | ${ipver} | ${isp}" >> new_nodes.tmp
             fi
-            fi
           done
 
           # 5. 对比、构建文件与备份
