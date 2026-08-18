@@ -63,7 +63,7 @@ jobs:
                   line = line_map.get(item.get("line"), "未知")
                   if ip:
                       formatted_ip = f"[{ip}]" if ip_type == "v6" else ip
-                      node = f"{formatted_ip}:443#CFYes优选 | {line} | {formatted_ip}"
+                      node = f"{formatted_ip}:443#CFYes | 未知 | {'IPv6' if ip_type == 'v6' else 'IPv4'} | {line}"
                       ip_nodes.append(node)
 
               file_path = os.path.join(dir_name, file_name)

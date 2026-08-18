@@ -22,7 +22,7 @@ jobs:
           
           # 2. 获取数据并处理
           # 仅修改输出文件名为 ipv4-onlyip.txt
-          curl -s https://raw.githubusercontent.com/ZhiXuanWang/cf-speed-dns/refs/heads/main/ipTop10.html | tr ',' '\n' | sed '/^$/d' > zhixuanwang/ipv4-onlyip.txt
+          curl -s https://raw.githubusercontent.com/ZhiXuanWang/cf-speed-dns/refs/heads/main/ipTop10.html | tr ',' '\n' | sed '/^$/d' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' | sed 's/$/:443#智选优选 | 未知 | IPv4 | 未知/' > zhixuanwang/ipv4-onlyip.txt
           
           echo "数据已处理并保存至 zhixuanwang/ipv4-onlyip.txt"
 

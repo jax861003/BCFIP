@@ -22,7 +22,7 @@ jobs:
           # 使用 curl 获取数据并使用 jq 解析
           # 格式：ip:443#IRCF优选 | ip
           curl -s "https://raw.githubusercontent.com/ircfspace/cf2dns/refs/heads/master/list/ipv4.json" | \
-          jq -r '.[] | "\(.ip):443#IRCF优选 | \(.ip)"' > ircf/ipv4.txt
+          jq -r '.[] | "\(.ip):443#IRCF | 未知 | IPv4 | 未知"' > ircf/ipv4.txt
 
       - name: Commit and Push
         run: |

@@ -103,7 +103,8 @@ jobs:
                               speed = cols[4].get_text(strip=True)
                               
                               # 格式化输出
-                              formatted = f"{valid_ip}:443#麒麟优选 | {line} | {valid_ip} | {latency} | {speed}"
+                              isp = line if line in ("移动", "联通", "电信") else "未知"
+                              formatted = f"{valid_ip}:443#麒麟优选 | 未知 | IPv4 | {isp}"
                               new_nodes.append(formatted)
 
                       if not new_nodes:

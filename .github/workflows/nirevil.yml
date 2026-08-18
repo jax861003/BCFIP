@@ -36,9 +36,9 @@ jobs:
               (if .line == "CM" then "移动" 
                elif .line == "CU" then "联通" 
                elif .line == "CT" then "电信" 
-               else .line end) as $label |
-              (if $type == "v6" then "[\(.ip)]:443#NiREvil优选 | \($label) | \(.colo) | \(.latency)ms | \(.speed)mbps"
-               else "\(.ip):443#NiREvil优选 | \($label) | \(.ip) | \(.colo) | \(.latency)ms | \(.speed)mbps" end)
+               else "未知" end) as $isp |
+              (if $type == "v6" then "[\(.ip)]:443#NiREvil | 未知 | IPv6 | \($isp)"
+               else "\(.ip):443#NiREvil | 未知 | IPv4 | \($isp)" end)
             ' > "$tmp_new"
 
             # 对比逻辑

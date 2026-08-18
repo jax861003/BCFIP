@@ -73,19 +73,48 @@ CN = {
 }
 
 
+def flag_to_cc(name):
+    m = re.search(r'[\U0001F1E6-\U0001F1FF]{2}', name)
+    if m:
+        pair = m.group(0)
+        return chr(ord(pair[0]) - 0x1F1E6 + 65) + chr(ord(pair[1]) - 0x1F1E6 + 65)
+    return None
+
+
 def region(name):
+    cc = flag_to_cc(name)
+    if cc and cc in CN:
+        return f"{CN[cc]} {cc}"
     ccm = re.search(r'\b([A-Z]{2})\b', name)
-    if ccm:
+    if ccm and ccm.group(1) in CN:
         cc = ccm.group(1)
-        return f"{CN.get(cc, cc)} {cc}"
-    cleaned = re.sub(r'[\U0001F1E6-\U0001F1FF]+', '', name)
-    cleaned = re.sub(r'@.*$', '', cleaned).strip()
-    return cleaned or "未知"
+        return f"{CN[cc]} {cc}"
+    for cn, code in CN.items():
+        if code == "UK" and "GB" in name:
+            continue
+        if cn in name:
+            return f"{cn} {code}"
+    return "未知"
+
+
+def isp(name):
+    if re.search(r'中国移动|移动', name):
+        return "移动"
+    if re.search(r'中国联通|联通', name):
+        return "联通"
+    if re.search(r'中国电信|电信', name):
+        return "电信"
+    return "未知"
+
+
+def ipver(key):
+    ip = key.rsplit(":", 1)[0]
+    return "IPv6" if ":" in ip else "IPv4"
 
 
 now = datetime.now(timezone(timedelta(hours=8))).strftime("%m-%d %H:%M")
 out = [f"{rows[0][0]}#{provider}优选 | {now} | BestCF.pages.dev"]
-out += [f"{k}#{provider}优选 | {region(n)} | {k}" for k, n in rows]
+out += [f"{k}#{provider} | {region(n)} | {ipver(k)} | {isp(n)}" for k, n in rows]
 out.append(f"{rows[-1][0]}#{provider}优选 | 分享免费优选网 BestCF.pages.dev")
 
 with open(target, "w", encoding="utf-8") as f:

@@ -36,28 +36,29 @@ jobs:
             TMP_NEW="new_${FILENAME}.tmp"
             
             if [ "$FILENAME" = "Cfxyz.txt" ]; then
-                REGION="Speed"
+                REGION="未知"
             else
-                REGION=$(echo "${FILENAME%.*}" | tr '[:lower:]' '[:upper:]')
+                CODE=$(echo "${FILENAME%.*}" | tr '[:lower:]' '[:upper:]')
+                case "$CODE" in
+                  JP) REGION="日本 JP";;
+                  US) REGION="美国 US";;
+                  DE) REGION="德国 DE";;
+                  SG) REGION="新加坡 SG";;
+                  NL) REGION="荷兰 NL";;
+                  *) REGION="未知";;
+                esac
             fi
             
             echo "正在处理: $FILENAME (地区: $REGION)"
             
-            curl -sL -H "Cache-Control: no-cache" "$URL" | awk '{
+            curl -sL -H "Cache-Control: no-cache" "$URL" | awk -v region="$REGION" '{
                 gsub(/\r/, "", $0);
                 if (length($0) > 0) {
                     n = split($0, a, "#");
                     ip_full = a[1];
-                    remark = a[2];
-                    split(ip_full, b, ":");
-                    pure_ip = b[1];
-                    if (ip_full !~ /:/) { output_head = ip_full ":443" } else { output_head = ip_full }
+                    if (ip_full ~ /:/) { output_head = ip_full; ipver = "IPv6" } else { output_head = ip_full ":443"; ipver = "IPv4" }
                     
-                    if (n > 1) { 
-                        line = output_head "#Gslege优选 | " remark " | " pure_ip 
-                    } else { 
-                        line = output_head " | " pure_ip 
-                    }
+                    line = output_head "#Gslege | " region " | " ipver " | 未知"
                     
                     # 仅在这一行没出现过时才打印，保持原有顺序
                     if (!seen[line]++) {
