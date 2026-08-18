@@ -1,5 +1,5 @@
 import re, base64, sys, urllib.parse
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 provider = sys.argv[1]
 target = sys.argv[2] if len(sys.argv) > 2 else "parsed.txt"
@@ -83,7 +83,7 @@ def region(name):
     return cleaned or "未知"
 
 
-now = datetime.now().strftime("%m-%d %H:%M")
+now = datetime.now(timezone(timedelta(hours=8))).strftime("%m-%d %H:%M")
 out = [f"{rows[0][0]}#{provider}优选 | {now} | BestCF.pages.dev"]
 out += [f"{k}#{provider}优选 | {region(n)} | {k}" for k, n in rows]
 out.append(f"{rows[-1][0]}#{provider}优选 | 分享免费优选网 BestCF.pages.dev")
