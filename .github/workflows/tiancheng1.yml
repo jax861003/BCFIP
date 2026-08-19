@@ -191,7 +191,7 @@ jobs:
 
           if [ "$SHOULD_COMMIT" = true ]; then
             BJ_TIME=$(TZ='Asia/Shanghai' date +'%m-%d %H:%M')
-            FOOTER="162.159.197.1:443#天诚优选1 | 分享免费优选网 BestCF.pages.dev"
+            FOOTER="162.159.197.1:443#天诚优选1"
             
             # 备份
             if [ -f "$OLD_FILE" ]; then
@@ -202,12 +202,12 @@ jobs:
             rm -f tiancheng/hk.txt tiancheng/sg.txt tiancheng/jp.txt tiancheng/tw.txt tiancheng/kr.txt tiancheng/us.txt
 
             # 生成 All 版
-            echo "162.159.198.1:443#天诚优选1 全量版 | ${BJ_TIME} | BestCF.pages.dev" > "tiancheng/all.txt"
+            echo "162.159.198.1:443#天诚优选1 全量版 | ${BJ_TIME}" > "tiancheng/all.txt"
             [ -f new_nodes.tmp ] && cat new_nodes.tmp >> "tiancheng/all.txt"
             echo "$FOOTER" >> "tiancheng/all.txt"
 
             # 生成 Mini 版
-            echo "162.159.198.1:443#天诚优选1 迷你版 | ${BJ_TIME} | BestCF.pages.dev" > "tiancheng/mini.txt"
+            echo "162.159.198.1:443#天诚优选1 迷你版 | ${BJ_TIME}" > "tiancheng/mini.txt"
             if [ -f new_nodes.tmp ]; then
                 awk -F'|' '{l=$2; c[l]++; if(c[l]<=3) print $0}' new_nodes.tmp >> "tiancheng/mini.txt"
             fi
@@ -217,7 +217,7 @@ jobs:
             for loc in HK SG JP TW KR US; do
               f=$(echo "$loc" | tr '[:upper:]' '[:lower:]')
               if grep -q " ${loc} |" new_nodes.tmp 2>/dev/null; then
-                echo "162.159.198.1:443#天诚优选1 ${loc}版 | ${BJ_TIME} | BestCF.pages.dev" > "tiancheng/${f}.txt"
+                echo "162.159.198.1:443#天诚优选1 ${loc}版 | ${BJ_TIME}" > "tiancheng/${f}.txt"
                 grep " ${loc} |" new_nodes.tmp >> "tiancheng/${f}.txt"
                 echo "$FOOTER" >> "tiancheng/${f}.txt"
               fi

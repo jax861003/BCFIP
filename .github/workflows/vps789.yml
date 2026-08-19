@@ -33,9 +33,9 @@ jobs:
                 continue
               fi
               T=$(TZ='Asia/Shanghai' date +'%m-%d %H:%M')
-              echo "162.159.198.1:${port}#VPS789优选域名 TOP${count} | ${T} | BestCF.pages.dev" > "$FILE"
+              echo "162.159.198.1:${port}#VPS789优选域名 TOP${count} | ${T}" > "$FILE"
               grep -v "BestCF.pages.dev" raw_top.txt >> "$FILE"
-              echo "162.159.197.1:${port}#VPS789优选域名 | 分享免费优选网 BestCF.pages.dev" >> "$FILE"
+              echo "162.159.197.1:${port}#VPS789优选域名" >> "$FILE"
               echo "生成: $FILE ($(grep -c '#VPS789' "$FILE") 条)"
             done
           done

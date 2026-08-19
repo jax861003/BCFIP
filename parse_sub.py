@@ -113,9 +113,9 @@ def ipver(key):
 
 
 now = datetime.now(timezone(timedelta(hours=8))).strftime("%m-%d %H:%M")
-out = [f"{rows[0][0]}#{provider}优选 | {now} | BestCF.pages.dev"]
+out = [f"{rows[0][0]}#{provider}优选 | {now}"]
 out += [f"{k}#{provider} | {region(n)} | {ipver(k)} | {isp(n)}" for k, n in rows]
-out.append(f"{rows[-1][0]}#{provider}优选 | 分享免费优选网 BestCF.pages.dev")
+out.append(f"{rows[-1][0]}#{provider}优选")
 
 with open(target, "w", encoding="utf-8") as f:
     f.write("\n".join(out) + "\n")

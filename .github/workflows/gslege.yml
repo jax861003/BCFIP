@@ -87,9 +87,9 @@ jobs:
             if [ "$FILE_CHANGED" = true ]; then
                 HAS_CHANGES=true
                 echo "-> 检测到实际内容变更，正在更新文件"
-                echo "162.159.198.1:443#Gslege优选 $REGION | $BJ_TIME | BestCF.pages.dev" > "$TARGET_FILE"
+                echo "162.159.198.1:443#Gslege优选 $REGION | $BJ_TIME" > "$TARGET_FILE"
                 cat "$TMP_NEW" >> "$TARGET_FILE"
-                echo "162.159.197.1:443#Gslege优选 | 分享免费优选网 BestCF.pages.dev" >> "$TARGET_FILE"
+                echo "162.159.197.1:443#Gslege优选" >> "$TARGET_FILE"
             else
                 echo "-> 内容无实质变化，跳过"
             fi

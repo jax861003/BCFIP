@@ -70,9 +70,9 @@ jobs:
               header_label = "IPv4" if ip_type == "v4" else "IPv6"
               
               final_output = [
-                  f"162.159.198.1:443#CFYes优选{header_label} | {bj_time} | BestCF.pages.dev",
+                  f"162.159.198.1:443#CFYes优选{header_label} | {bj_time}",
                   *ip_nodes,
-                  f"162.159.197.1:443#CFYes优选{header_label} | 分享免费优选网 BestCF.pages.dev"
+                  f"162.159.197.1:443#CFYes优选{header_label}"
               ]
               
               with open(file_path, "w", encoding="utf-8") as f:

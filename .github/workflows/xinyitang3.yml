@@ -43,7 +43,7 @@ jobs:
 
           # 统一格式转换：来源 | 归属地 | IPv4/IPv6 | 运营商
           T=$(TZ='Asia/Shanghai' date +'%m-%d %H:%M')
-          echo "162.159.198.1:443#Mia优选 | ${T} | BestCF.pages.dev" > xinyitang3/ipv4.txt
+          echo "162.159.198.1:443#Mia优选 | ${T}" > xinyitang3/ipv4.txt
           awk -F'|' '{
             line=$0;
             if (line ~ /BestCF\.pages\.dev/) { next }
@@ -54,7 +54,7 @@ jobs:
             ipver=(host ~ /:/) ? "IPv6" : "IPv4";
             print ip_port "#Mia优选 | " region " | " ipver " | 未知"
           }' raw_nodes.txt >> xinyitang3/ipv4.txt
-          echo "162.159.197.1:443#Mia优选 | 分享免费优选网 BestCF.pages.dev" >> xinyitang3/ipv4.txt
+          echo "162.159.197.1:443#Mia优选" >> xinyitang3/ipv4.txt
           
           echo "数据校验通过，ipv4.txt 文件生成成功！"
 
@@ -70,8 +70,8 @@ jobs:
           if [ -f "$TARGET_FILE" ] && git ls-files --error-unmatch "$TARGET_FILE" >/dev/null 2>&1; then
             echo "比对文本..."
             
-            git show HEAD:"$TARGET_FILE" | grep -v "BestCF.pages.dev" > old_clean.tmp || true
-            grep -v "BestCF.pages.dev" "$TARGET_FILE" > new_clean.tmp || true
+            git show HEAD:"$TARGET_FILE" | sed '1d;$d' > old_clean.tmp || true
+            sed '1d;$d' "$TARGET_FILE" > new_clean.tmp || true
             
             if diff -q old_clean.tmp new_clean.tmp >/dev/null 2>&1; then
               echo "优选未发生变化，跳过本次提交。"

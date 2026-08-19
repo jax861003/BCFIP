@@ -57,9 +57,9 @@ jobs:
               local label_name="IPv4"
               if [ "$type" == "v6" ]; then label_name="IPv6"; fi
               
-              echo "162.159.198.1:443#NiREvil优选$label_name | $BJ_TIME | BestCF.pages.dev" > "$target_file"
+              echo "162.159.198.1:443#NiREvil优选$label_name | $BJ_TIME" > "$target_file"
               cat "$tmp_new" >> "$target_file"
-              echo "162.159.197.1:443#NiREvil优选$label_name | 分享免费优选网 BestCF.pages.dev" >> "$target_file"
+              echo "162.159.197.1:443#NiREvil优选$label_name" >> "$target_file"
               HAS_CHANGES=true
             fi
           }

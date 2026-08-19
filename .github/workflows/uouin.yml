@@ -124,8 +124,8 @@ jobs:
                           return False
 
                       bj_time = (datetime.datetime.utcnow() + datetime.timedelta(hours=8)).strftime('%m-%d %H:%M')
-                      header = f"162.159.198.1:443#麒麟优选 | {bj_time} | BestCF.pages.dev"
-                      footer = "162.159.197.1:443#麒麟优选 | 分享免费优选网 BestCF.pages.dev"
+                      header = f"162.159.198.1:443#麒麟优选 | {bj_time}"
+                      footer = "162.159.197.1:443#麒麟优选"
 
                       with open(output_path, "w", encoding="utf-8") as f:
                           f.write(header + "\n")

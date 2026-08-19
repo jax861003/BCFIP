@@ -59,8 +59,8 @@ jobs:
           if [ -f "$TARGET_FILE" ] && git ls-files --error-unmatch "$TARGET_FILE" >/dev/null 2>&1; then
             echo "比对文本..."
             
-            git show HEAD:"$TARGET_FILE" | grep -v "BestCF.pages.dev" > old_clean.tmp || true
-            grep -v "BestCF.pages.dev" "$TARGET_FILE" > new_clean.tmp || true
+            git show HEAD:"$TARGET_FILE" | sed '1d;$d' > old_clean.tmp || true
+            sed '1d;$d' "$TARGET_FILE" > new_clean.tmp || true
             
             if diff -q old_clean.tmp new_clean.tmp >/dev/null 2>&1; then
               echo "优选未发生变化，跳过本次提交。"
