@@ -1,4 +1,4 @@
-162.159.198.1:443#VPS789优选域名 TOP10 | 08-19 10:06
+162.159.198.1:443#VPS789优选域名 TOP10 | 08-19 11:07
 cfsaas.080112.xyz:443#VPS789优选 | cfsaas.080112.xyz
 cloudflare.idc.rocks:443#VPS789优选 | cloudflare.idc.rocks
 hk.cf.3666888.xyz:443#VPS789优选 | hk.cf.3666888.xyz
@@ -7,6 +7,6 @@ cloudflare.468123.xyz:443#VPS789优选 | cloudflare.468123.xyz
 cf-cname.xingpingcn.top:443#VPS789优选 | cf-cname.xingpingcn.top
 saas.sin.fan:443#VPS789优选 | saas.sin.fan
 cdn.204910.best:443#VPS789优选 | cdn.204910.best
-staticdelivery.nexusmods.com:443#VPS789优选 | staticdelivery.nexusmods.com
+www.fastsoso.cn:443#VPS789优选 | www.fastsoso.cn
 cf.3666888.xyz:443#VPS789优选 | cf.3666888.xyz
 162.159.197.1:443#VPS789优选域名
