@@ -1,7 +1,5 @@
 # 优选IP · 原样透传（BCFIP）
 
-> 统一抓取多个 Cloudflare 优选 IP 上游，**保持上游原生格式**，**零 Secret 开箱即用**，定时更新、自动部署到 Cloudflare Pages。
-
 ---
 
 ## 📌 项目初衷与最根本的引用来源

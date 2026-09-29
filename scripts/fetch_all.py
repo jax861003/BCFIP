@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-4.原样优选 —— 统一抓取脚本（复刻 wanwushequ/cfyxip 原项目按上游取IP的方式）
+BCFIP —— 统一抓取脚本（按上游原生方式抓取公开优选 IP，取数方式参考 wanwushequ/cfyxip）
 
-设计目标（对照用户诉求）：
-1. 复刻原项目「每个上游单独的取数方式」，但合并进【单个脚本 + 单个工作流】，
-   避免原项目每上游一个 workflow 导致 GitHub Actions 运行记录膨胀、
+设计目标：
+1. 复刻 wanwushequ/cfyxip「每个上游单独的取数方式」，但合并进【单个脚本 + 单个工作流】，
+   避免上游项目每上游一个 workflow 导致 GitHub Actions 运行记录膨胀、
    Cloudflare Pages 每次 push 都部署（部署记录 >100 后删项目很麻烦）。
 2. 取到的 IP 保持【上游原生格式】：
    - 订阅类源（cmliu/cmliu2/luoli/lzj）：`curl -A Clash <订阅URL>` 后【原样透传】，
-     不做任何改名 / 重新编号（即原项目 `cat raw_nodes.txt > <src>/all.txt` 的行为）。
+     不做任何改名 / 重新编号（即上游 `cat raw_nodes.txt > <src>/all.txt` 的行为）。
    - Mia（xinyitang3）：直接镜像 wanwushequ/cfyxip 公开数据文件，【原样透传】到 <src>/all.txt（无需 Playwright）。
    - API 类源（cfyes/vvhan/wetest/uouin/nirevil/gslege/zhixuanwang/s5gy）：
      调用上游公开接口，抽取 IP:端口，仅保留【上游自身字段】作为备注
@@ -24,7 +24,7 @@
   - cmliu / cmliu2 / Mia(xinyitang3) 已内置【公开上游地址 public_url】，无需任何配置即可运行；
     若你有自己的个人订阅链接，可配置同名 Secret（CMLIU_URL / CMLIU2_URL / XINYITANG3_URL）覆盖之。
   - 洛璃(luoli) / 辣子鸡(lzj) 已内置【公开探测】：用占位 host/uuid 触发 workerVless2sub 返回其
-    公开优选IP列表，无需任何个人订阅即可获取（详见 README 的「洛璃/辣子鸡已破解」说明）。
+    公开优选IP列表，无需任何个人订阅即可获取（详见 README「原理」章节）。
     若你有自己的个人订阅链接，可配置同名 Secret（LUOLI_URL / LZJ_URL）覆盖探测结果。
 """
 
