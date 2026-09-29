@@ -1,0 +1,56 @@
+name: fetch
+
+# 单一工作流替代原项目「每上游一个 workflow」的设计：
+# - 不再为每个上游单独建 workflow，GitHub Actions 运行记录不再爆炸；
+# - 仅在内容真正变化时才 commit+push，Cloudflare Pages 不会每次调度都部署，
+#   从根本上避免「部署记录 >100 后删项目要先清记录」的麻烦。
+on:
+  schedule:
+    - cron: '21 */6 * * *'      # 每 6 小时一次
+  workflow_dispatch:            # 支持手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-push:
+    runs-on: ubuntu-latest
+    env:
+      # 全部可选。洛璃/辣子鸡(loli.sub.us.ci / sub.lzjbaby.com)已内置「公开探测」：
+      # 用占位 host/uuid 触发上游返回其公开优选IP列表，无需任何个人订阅 Secret 即可获取。
+      # 若你有自己的个人订阅链接，可配置同名 Secret(LUOLI_URL/LZJ_URL)覆盖探测结果。
+      # cmliu/cmliu2/Mia 已内置公开上游，XINYITANG3_URL 等其余 Secret 仅供覆盖用。
+      CMLIU_URL: ${{ secrets.CMLIU_URL }}
+      CMLIU2_URL: ${{ secrets.CMLIU2_URL }}
+      LUOLI_URL: ${{ secrets.LUOLI_URL }}
+      LZJ_URL: ${{ secrets.LZJ_URL }}
+      XINYITANG3_URL: ${{ secrets.XINYITANG3_URL }}
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 安装依赖
+        run: |
+          pip install requests cloudscraper
+
+      - name: 抓取并生成数据
+        run: python scripts/fetch_all.py
+
+      - name: 仅在有变化时才提交并推送（控制 Cloudflare 部署次数）
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "数据无变化，跳过提交与部署。"
+            exit 0
+          fi
+          BJ_TIME=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')
+          git commit -m "优选IP更新 $BJ_TIME"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push

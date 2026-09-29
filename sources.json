@@ -1,0 +1,182 @@
+{
+  "generated_at": "2026-09-29T20:40:00.891612+08:00",
+  "generated_compact": "09-29 20:40",
+  "fresh_hours": 24,
+  "total_entries": 1092,
+  "active_sources": 19,
+  "total_sources": 19,
+  "format": "上游原生格式（订阅源原样透传 / API 源仅保留上游自身备注）",
+  "sources": [
+    {
+      "name": "cmliu",
+      "label": "CM",
+      "code": "CM",
+      "path": "cmliu/all.txt",
+      "entries": 62,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:26.849109+08:00"
+    },
+    {
+      "name": "cmliu2",
+      "label": "CM 2",
+      "code": "CM",
+      "path": "cmliu2/all.txt",
+      "entries": 46,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:28.014769+08:00"
+    },
+    {
+      "name": "luoli",
+      "label": "洛璃",
+      "code": "LL",
+      "path": "luoli/all.txt",
+      "entries": 16,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:29.756673+08:00"
+    },
+    {
+      "name": "lzj",
+      "label": "辣子鸡",
+      "code": "LZ",
+      "path": "lzj/all.txt",
+      "entries": 219,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:31.160701+08:00"
+    },
+    {
+      "name": "mia",
+      "label": "Mia",
+      "code": "MIA",
+      "path": "mia/all.txt",
+      "entries": 29,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:32.859134+08:00"
+    },
+    {
+      "name": "cfyes",
+      "label": "CFYes",
+      "code": "CFY",
+      "path": "cfyes/all.txt",
+      "entries": 30,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:33.585222+08:00"
+    },
+    {
+      "name": "vvhan",
+      "label": "vvHan",
+      "code": "VH",
+      "path": "vvhan/all.txt",
+      "entries": 60,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:34.654601+08:00"
+    },
+    {
+      "name": "wetest",
+      "label": "WeTest",
+      "code": "WT",
+      "path": "wetest/all.txt",
+      "entries": 15,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:36.300356+08:00"
+    },
+    {
+      "name": "uouin",
+      "label": "麒麟",
+      "code": "QL",
+      "path": "uouin/all.txt",
+      "entries": 40,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:36.629877+08:00"
+    },
+    {
+      "name": "nirevil",
+      "label": "NiREvil",
+      "code": "NR",
+      "path": "nirevil/all.txt",
+      "entries": 40,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:38.257020+08:00"
+    },
+    {
+      "name": "gslege",
+      "label": "Gslege",
+      "code": "GS",
+      "path": "gslege/all.txt",
+      "entries": 99,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:44.951273+08:00"
+    },
+    {
+      "name": "zhixuanwang",
+      "label": "ZhiXuan",
+      "code": "ZX",
+      "path": "zhixuanwang/all.txt",
+      "entries": 2,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:45.796374+08:00"
+    },
+    {
+      "name": "s5gy",
+      "label": "S5公益",
+      "code": "S5",
+      "path": "s5gy/all.txt",
+      "entries": 193,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:48.857612+08:00"
+    },
+    {
+      "name": "moistr",
+      "label": "Moist_R",
+      "code": "MR",
+      "path": "moistr/all.txt",
+      "entries": 32,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:51.040207+08:00"
+    },
+    {
+      "name": "chili",
+      "label": "辣椒炒肉少放辣",
+      "code": "CL",
+      "path": "chili/all.txt",
+      "entries": 41,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:53.470530+08:00"
+    },
+    {
+      "name": "kristi",
+      "label": "Kristi",
+      "code": "KR",
+      "path": "kristi/all.txt",
+      "entries": 30,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:55.701983+08:00"
+    },
+    {
+      "name": "zrf",
+      "label": "周润发",
+      "code": "ZRF",
+      "path": "zrf/all.txt",
+      "entries": 38,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:57.744845+08:00"
+    },
+    {
+      "name": "danfeng",
+      "label": "DanFeng",
+      "code": "DF",
+      "path": "danfeng/all.txt",
+      "entries": 30,
+      "active": true,
+      "last_updated": "2026-09-29T20:39:59.516698+08:00"
+    },
+    {
+      "name": "tiancheng",
+      "label": "天诚",
+      "code": "TC",
+      "path": "tiancheng/all.txt",
+      "entries": 70,
+      "active": true,
+      "last_updated": "2026-09-29T20:40:00.891584+08:00"
+    }
+  ]
+}
