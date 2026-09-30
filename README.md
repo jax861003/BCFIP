@@ -1,8 +1,4 @@
-# 优选IP · 原样透传（BCFIP）
-
----
-
-## 📌 项目初衷与最根本的引用来源
+📌 项目初衷与最根本的引用来源
 
 本项目所有上游清单与取数思路，最根本的引用来源是：
 
@@ -16,25 +12,17 @@
 
 所有上游由单个脚本 `scripts/fetch_all.py` 抓取，按各上游原本的方式取数，分为三类：
 
-| 类型 | 取数方式 | 涉及上游 |
-| --- | --- | --- |
-| `raw` | 原样抓取公开地址 | CM、CM 2、Mia |
-| `probesub` | [`cmliu/edgetunnel`](https://github.com/cmliu/edgetunnel) 的「优选订阅生成器」机制 | 洛璃、辣子鸡、Moist_R、辣椒炒肉少放辣、Kristi、周润发、DanFeng、天诚 |
-| `api` | 各源各自的公开优选 IP 接口 | CFYes、vvHan、WeTest、麒麟、NiREvil、Gslege、ZhiXuan、S5公益 |
-
-**`probesub` 探测机制**：洛璃（`loli.sub.us.ci`）、辣子鸡（`sub.lzjbaby.com`）等均为 [`cmliu/workerVless2sub`](https://github.com/cmliu/workerVless2sub)（Cloudflare Worker 版 VLESS→订阅转换器）的部署实例。参考 [`cmliu/edgetunnel`](https://github.com/cmliu/edgetunnel) 的「优选订阅生成器」机制，用固定占位参数：
-
-```
-https://<host>/sub?host=example.com&uuid=00000000-0000-4000-8000-000000000000
-```
-
-触发上游返回其**公开优选 IP 列表**（base64 订阅）。脚本解码后提取 `@` 后的 `IP:端口#备注`——uuid 仅为占位，真实 IP 与地区/测速备注均为上游原生数据，**无需任何个人订阅 Secret**。
+| 类型         | 取数方式                                                                   | 涉及上游                                              |
+| ---------- | ---------------------------------------------------------------------- | ------------------------------------------------- |
+| `raw`      | 原样抓取公开地址                                                               | CM、CM 2、Mia                                       |
+| `probesub` | [`cmliu/edgetunnel`](https://github.com/cmliu/edgetunnel) 的「优选订阅生成器」机制 | 洛璃、辣子鸡、Moist_R、辣椒炒肉少放辣、Kristi、周润发、DanFeng、天诚      |
+| `api`      | 各源各自的公开优选 IP 接口                                                        | CFYes、vvHan、WeTest、麒麟、NiREvil、Gslege、ZhiXuan、S5公益 |
 
 ### 2. 保持上游原生格式
 
 - 订阅/探测源：`IP:端口#备注` 一行不改地落地；
 - API 源：仅保留上游自身字段（地区 / 运营商）作备注；
-- **不注入 `CFYes优选` / `QNAir-LL` 这类项目品牌，也不重新编号。**
+- **不注入 项目品牌，也不重新编号。**
 
 ### 3. 24 小时时效过滤
 
@@ -51,27 +39,27 @@ https://<host>/sub?host=example.com&uuid=00000000-0000-4000-8000-000000000000
 
 当前共 **19 个上游**，全部零 Secret 开箱即用。实时活跃状态与条数见站点 `sources.json`。
 
-| # | 名称 | 标识 | 类型 |
-| --- | --- | --- | --- |
-| 1 | CM | `CM` | raw |
-| 2 | CM 2 | `CM` | raw |
-| 3 | 洛璃 | `LL` | probesub |
-| 4 | 辣子鸡 | `LZ` | probesub |
-| 5 | Mia | `MIA` | raw |
-| 6 | CFYes | `CFY` | api |
-| 7 | vvHan | `VH` | api |
-| 8 | WeTest | `WT` | api |
-| 9 | 麒麟 | `QL` | api |
-| 10 | NiREvil | `NR` | api |
-| 11 | Gslege | `GS` | api |
-| 12 | ZhiXuan | `ZX` | api |
-| 13 | S5公益 | `S5` | api |
-| 14 | Moist_R | `MR` | probesub |
-| 15 | 辣椒炒肉少放辣 | `CL` | probesub |
-| 16 | Kristi | `KR` | probesub |
-| 17 | 周润发 | `ZRF` | probesub |
-| 18 | DanFeng | `DF` | probesub |
-| 19 | 天诚 | `TC` | probesub |
+| #  | 名称      | 标识    | 类型       |
+| -- | ------- | ----- | -------- |
+| 1  | CM      | `CM`  | raw      |
+| 2  | CM 2    | `CM`  | raw      |
+| 3  | 洛璃      | `LL`  | probesub |
+| 4  | 辣子鸡     | `LZ`  | probesub |
+| 5  | Mia     | `MIA` | raw      |
+| 6  | CFYes   | `CFY` | api      |
+| 7  | vvHan   | `VH`  | api      |
+| 8  | WeTest  | `WT`  | api      |
+| 9  | 麒麟      | `QL`  | api      |
+| 10 | NiREvil | `NR`  | api      |
+| 11 | Gslege  | `GS`  | api      |
+| 12 | ZhiXuan | `ZX`  | api      |
+| 13 | S5公益    | `S5`  | api      |
+| 14 | Moist_R | `MR`  | probesub |
+| 15 | 辣椒炒肉少放辣 | `CL`  | probesub |
+| 16 | Kristi  | `KR`  | probesub |
+| 17 | 周润发     | `ZRF` | probesub |
+| 18 | DanFeng | `DF`  | probesub |
+| 19 | 天诚      | `TC`  | probesub |
 
 **致谢：**
 
@@ -128,16 +116,6 @@ BCFIP/
 - **门控**：仅在抓取结果相对上次有变化时才 `commit + push`，Cloudflare 随之自动重新部署；无变化则跳过，不产生部署记录。
 
 推送权限由 workflow 内的 `permissions: contents: write` 保证，使用内置 `GITHUB_TOKEN`，无需额外配置。
-
-### （可选）步骤 4：用个人订阅覆盖
-
-若你拥有洛璃 / 辣子鸡等上游的**个人订阅链接**，可在仓库 **Settings → Secrets and variables → Actions** 配置同名 Secret，脚本会原样透传覆盖公开探测结果；不配置则走公开路径。
-
-| Secret 名 | 对应上游 | 作用 |
-| --- | --- | --- |
-| `LUOLI_URL` | 洛璃 | 可选，覆盖公开探测 |
-| `LZJ_URL` | 辣子鸡 | 可选，覆盖公开探测 |
-| `CMLIU_URL` / `CMLIU2_URL` / `XINYITANG3_URL` | CM / CM 2 / Mia | 可选，覆盖内嵌公开地址 |
 
 ---
 
