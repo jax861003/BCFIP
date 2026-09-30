@@ -18,11 +18,17 @@
 | `probesub` | [`cmliu/edgetunnel`](https://github.com/cmliu/edgetunnel) 的「优选订阅生成器」机制 | 洛璃、辣子鸡、Moist_R、辣椒炒肉少放辣、Kristi、周润发、DanFeng、天诚      |
 | `api`      | 各源各自的公开优选 IP 接口                                                        | CFYes、vvHan、WeTest、麒麟、NiREvil、Gslege、ZhiXuan、S5公益 |
 
-### 2. 保持上游原生格式
+### 2. 统一格式输出（QNAir）
 
-- 订阅/探测源：`IP:端口#备注` 一行不改地落地；
-- API 源：仅保留上游自身字段（地区 / 运营商）作备注；
-- **不注入 项目品牌，也不重新编号。**
+所有上游抓到的节点，统一重写为固定格式，便于直接订阅与区分来源：
+
+```
+IP:PORT#QNAir丨归属地（未知归属地则显示运营商）丨上游标识丨序号（001 起）
+```
+
+- `归属地`：优先从上游备注/接口解析地区；解析不到则回退显示**运营商**；两者皆无则显示「未知」；
+- `上游标识`：各源的代码（如 `LL` / `LZ` / `CM` / `CFY`）；
+- `序号`：每个上游内从 `001` 开始递增，便于按源定位。
 
 ### 3. 24 小时时效过滤
 
@@ -78,7 +84,7 @@
 BCFIP/
 ├── index.html              # 展示页（列出各上游 + 合并订阅，动态读 sources.json）
 ├── sources.json            # 脚本生成，驱动 UI（含每源活跃状态/更新时间/条数）
-├── all.txt                 # 脚本生成，活跃源合并订阅（原样拼接）
+├── all.txt                 # 脚本生成，活跃源合并订阅（统一格式拼接）
 ├── _headers                # Cloudflare Pages 缓存策略（no-cache）
 ├── scripts/fetch_all.py    # 统一抓取脚本（19 个上游）
 └── .github/workflows/fetch.yml

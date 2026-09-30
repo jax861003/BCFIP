@@ -214,8 +214,11 @@ def match_isp(text):
         return "电信"
     if re.search(r"联通|CUCC|China\s*Unicom", s, re.I):
         return "联通"
-    t = re.sub(r"[^A-Za-z]", "", s).upper()
-    return ISP_EXACT.get(t)
+    # 按字母词逐个匹配（避免中文+多段英文混排时字母被拼成一片导致 CM 等 token 丢失）
+    for tok in re.findall(r"[A-Za-z]{2,}", s.upper()):
+        if tok in ISP_EXACT:
+            return ISP_EXACT[tok]
+    return None
 
 def normalize_region(text):
     if not text:
@@ -273,6 +276,30 @@ class Node:
         # 仅保留上游自身字段：地区 | 运营商；不注入任何项目品牌
         remark = " | ".join(p for p in [self.region, self.isp] if p and p != "未知")
         return f"{fmt_ip(self.ip)}:{self.port}" + (f"#{remark}" if remark else "")
+
+# ---------------------------------------------------------------- 统一格式（QNAir）
+def format_qnair(ip, port, region, isp, code, seq):
+    """统一输出：IP:PORT#QNAir丨归属地(未知则运营商)丨上游标识丨序号(001起)"""
+    third = region or isp or "未知"
+    return f"{fmt_ip(ip)}:{port}#QNAir丨{third}丨{code}丨{seq:03d}"
+
+def parse_raw_lines(text):
+    """`IP:PORT#备注` 文本 -> (ip, port, region, isp) 列表，供 raw/probesub 源复用统一格式。"""
+    out = []
+    for line in (text or "").splitlines():
+        line = line.strip().replace("\r", "")
+        if not line or line.startswith("#"):
+            continue
+        if "#" in line:
+            head, remark = line.split("#", 1)
+        else:
+            head, remark = line, ""
+        m = re.match(r"^(\[[0-9A-Fa-f:]+\]|[0-9A-Za-z\.\-]+):(\d{1,5})$", head.strip())
+        if not m:
+            continue
+        ip, port = m.group(1), m.group(2)
+        out.append((ip.strip("[]"), port, normalize_region(remark), match_isp(remark)))
+    return out
 
 # ---------------------------------------------------------------- HTTP
 def _get(url, timeout=15, retries=2, headers=None):
@@ -656,25 +683,40 @@ def main():
 
         try:
             result = run_with_timeout(FETCHERS[src["type"]], src)
-            # 订阅/mia/probesub：返回原始文本；API：返回 Node 列表
+            # 统一为 (ip, port, region, isp) 列表，再重写为 QNAir 统一格式
             if src["type"] in ("raw", "mia", "probesub"):
-                write_raw(src, result)
-                entries = count_lines(path)
+                nodes = parse_raw_lines(result)
             else:
                 if not result:
                     raise RuntimeError("抓取结果为空")
-                write_api(src, result)
-                entries = len(result)
+                nodes = [(n.ip, n.port, n.region, n.isp) for n in result]
+            if not nodes:
+                raise RuntimeError("有效节点为 0，拒绝写入")
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(
+                "\n".join(format_qnair(ip, port, region, isp, src["code"], i)
+                         for i, (ip, port, region, isp) in enumerate(nodes, 1)) + "\n",
+                encoding="utf-8")
+            entries = len(nodes)
             last_updated = bj_iso()
             active = True
             print(f"[OK] {label}: {entries} 条 -> {src['folder']}/all.txt")
         except Exception as e:
             # 抓取失败：保留 24h 内旧数据，否则剔除
             if prev_active and prev_fresh and path.exists():
-                entries = count_lines(path)
+                # 回退也重写为统一格式，避免合并 all.txt 混入旧格式行
+                old_nodes = parse_raw_lines(path.read_text(encoding="utf-8"))
+                if old_nodes:
+                    path.write_text(
+                        "\n".join(format_qnair(ip, port, region, isp, src["code"], i)
+                                 for i, (ip, port, region, isp) in enumerate(old_nodes, 1)) + "\n",
+                        encoding="utf-8")
+                    entries = len(old_nodes)
+                else:
+                    entries = count_lines(path)
                 last_updated = prev_time
                 active = True
-                print(f"[回退] {label}: 抓取失败({e})，保留 {entries} 条 24h 内旧数据")
+                print(f"[回退] {label}: 抓取失败({e})，保留 {entries} 条 24h 内旧数据（已统一格式）")
             else:
                 entries = count_lines(path) if path.exists() else 0
                 last_updated = prev_time
@@ -702,7 +744,7 @@ def main():
         "total_entries": total_entries,
         "active_sources": active_count,
         "total_sources": len(SOURCES),
-        "format": "上游原生格式（订阅源原样透传 / API 源仅保留上游自身备注）",
+        "format": "IP:PORT#QNAir丨归属地(未知则运营商)丨上游标识丨序号(001起)",
         "sources": sources_out,
     }
     (ROOT / "sources.json").write_text(
