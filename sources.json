@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-30T06:25:55.146473+08:00",
-  "generated_compact": "09-30 06:25",
+  "generated_at": "2026-09-30T08:55:52.808540+08:00",
+  "generated_compact": "09-30 08:55",
   "fresh_hours": 24,
-  "total_entries": 1288,
-  "active_sources": 18,
+  "total_entries": 1289,
+  "active_sources": 19,
   "total_sources": 19,
-  "format": "上游原生格式（订阅源原样透传 / API 源仅保留上游自身备注）",
+  "format": "IP:PORT#QNAir丨归属地(未知则运营商)丨上游标识丨序号(001起)",
   "sources": [
     {
       "name": "cmliu",
@@ -14,7 +14,7 @@
       "path": "cmliu/all.txt",
       "entries": 62,
       "active": true,
-      "last_updated": "2026-09-30T06:24:24.854814+08:00"
+      "last_updated": "2026-09-30T08:55:34.445102+08:00"
     },
     {
       "name": "cmliu2",
@@ -23,16 +23,16 @@
       "path": "cmliu2/all.txt",
       "entries": 46,
       "active": true,
-      "last_updated": "2026-09-30T06:24:25.231269+08:00"
+      "last_updated": "2026-09-30T08:55:34.585524+08:00"
     },
     {
       "name": "luoli",
       "label": "洛璃",
       "code": "LL",
       "path": "luoli/all.txt",
-      "entries": 45,
+      "entries": 21,
       "active": true,
-      "last_updated": "2026-09-30T06:24:26.526421+08:00"
+      "last_updated": "2026-09-30T08:55:37.043874+08:00"
     },
     {
       "name": "lzj",
@@ -41,16 +41,16 @@
       "path": "lzj/all.txt",
       "entries": 283,
       "active": true,
-      "last_updated": "2026-09-30T06:24:26.676104+08:00"
+      "last_updated": "2026-09-30T08:55:37.207865+08:00"
     },
     {
       "name": "mia",
       "label": "Mia",
       "code": "MIA",
       "path": "mia/all.txt",
-      "entries": 74,
+      "entries": 61,
       "active": true,
-      "last_updated": "2026-09-30T06:24:26.875245+08:00"
+      "last_updated": "2026-09-30T08:55:37.325564+08:00"
     },
     {
       "name": "cfyes",
@@ -59,7 +59,7 @@
       "path": "cfyes/all.txt",
       "entries": 30,
       "active": true,
-      "last_updated": "2026-09-30T06:24:28.895794+08:00"
+      "last_updated": "2026-09-30T08:55:39.661977+08:00"
     },
     {
       "name": "vvhan",
@@ -68,7 +68,7 @@
       "path": "vvhan/all.txt",
       "entries": 60,
       "active": true,
-      "last_updated": "2026-09-30T06:24:29.374472+08:00"
+      "last_updated": "2026-09-30T08:55:40.352594+08:00"
     },
     {
       "name": "wetest",
@@ -77,7 +77,7 @@
       "path": "wetest/all.txt",
       "entries": 15,
       "active": true,
-      "last_updated": "2026-09-30T06:24:29.721927+08:00"
+      "last_updated": "2026-09-30T08:55:41.076094+08:00"
     },
     {
       "name": "uouin",
@@ -86,7 +86,7 @@
       "path": "uouin/all.txt",
       "entries": 40,
       "active": true,
-      "last_updated": "2026-09-30T06:24:30.583472+08:00"
+      "last_updated": "2026-09-30T08:55:42.176077+08:00"
     },
     {
       "name": "nirevil",
@@ -95,7 +95,7 @@
       "path": "nirevil/all.txt",
       "entries": 40,
       "active": true,
-      "last_updated": "2026-09-30T06:24:30.909021+08:00"
+      "last_updated": "2026-09-30T08:55:42.380654+08:00"
     },
     {
       "name": "gslege",
@@ -104,7 +104,7 @@
       "path": "gslege/all.txt",
       "entries": 99,
       "active": true,
-      "last_updated": "2026-09-30T06:24:31.722436+08:00"
+      "last_updated": "2026-09-30T08:55:42.844944+08:00"
     },
     {
       "name": "zhixuanwang",
@@ -113,7 +113,7 @@
       "path": "zhixuanwang/all.txt",
       "entries": 2,
       "active": true,
-      "last_updated": "2026-09-30T06:24:31.880740+08:00"
+      "last_updated": "2026-09-30T08:55:42.988695+08:00"
     },
     {
       "name": "s5gy",
@@ -122,7 +122,7 @@
       "path": "s5gy/all.txt",
       "entries": 291,
       "active": true,
-      "last_updated": "2026-09-30T06:24:32.589248+08:00"
+      "last_updated": "2026-09-30T08:55:43.435225+08:00"
     },
     {
       "name": "moistr",
@@ -131,7 +131,7 @@
       "path": "moistr/all.txt",
       "entries": 32,
       "active": true,
-      "last_updated": "2026-09-30T06:24:33.064016+08:00"
+      "last_updated": "2026-09-30T08:55:43.772569+08:00"
     },
     {
       "name": "chili",
@@ -140,7 +140,7 @@
       "path": "chili/all.txt",
       "entries": 41,
       "active": true,
-      "last_updated": "2026-09-30T06:24:33.340861+08:00"
+      "last_updated": "2026-09-30T08:55:44.163609+08:00"
     },
     {
       "name": "kristi",
@@ -149,7 +149,7 @@
       "path": "kristi/all.txt",
       "entries": 30,
       "active": true,
-      "last_updated": "2026-09-30T06:24:34.050023+08:00"
+      "last_updated": "2026-09-30T08:55:45.733416+08:00"
     },
     {
       "name": "zrf",
@@ -157,8 +157,8 @@
       "code": "ZRF",
       "path": "zrf/all.txt",
       "entries": 38,
-      "active": false,
-      "last_updated": "2026-09-29T20:39:57.744845+08:00"
+      "active": true,
+      "last_updated": "2026-09-30T08:55:49.124606+08:00"
     },
     {
       "name": "danfeng",
@@ -167,7 +167,7 @@
       "path": "danfeng/all.txt",
       "entries": 30,
       "active": true,
-      "last_updated": "2026-09-30T06:25:54.114668+08:00"
+      "last_updated": "2026-09-30T08:55:50.643396+08:00"
     },
     {
       "name": "tiancheng",
@@ -176,7 +176,7 @@
       "path": "tiancheng/all.txt",
       "entries": 68,
       "active": true,
-      "last_updated": "2026-09-30T06:25:55.146451+08:00"
+      "last_updated": "2026-09-30T08:55:52.808521+08:00"
     }
   ]
 }
