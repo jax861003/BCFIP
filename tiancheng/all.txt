@@ -37,3 +37,7 @@ bestcf.030101.xyz:443#QNAir丨未知丨TC丨036
 cm.cf.090227.xyz:443#QNAir丨未知丨TC丨037
 bestcf.030101.xyz:443#QNAir丨未知丨TC丨038
 cfip.xxxxxxxx.tk:443#QNAir丨未知丨TC丨039
+ctcc.cloudflare.seeck.cn:443#QNAir丨电信丨TC丨040
+cmcc.cloudflare.seeck.cn:443#QNAir丨移动丨TC丨041
+cucc.cloudflare.seeck.cn:443#QNAir丨联通丨TC丨042
+cloudflare.seeck.cn:443#QNAir丨未知丨TC丨043
